@@ -65,14 +65,14 @@ export default function WattWallet() {
           </div>
         </div>
 
-        <div className="mt-6 p-4 bg-cyber-gray/50 rounded-lg">
-          <h4 className="font-semibold mb-2">Next Milestone</h4>
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-cyber-gray/50 rounded-lg">
+          <h4 className="font-semibold mb-2 text-sm sm:text-base">Next Milestone</h4>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-400">Solar Champion</span>
-            <span className="text-sm text-cyber-orange">{nextMilestone} WATT</span>
+            <span className="text-xs sm:text-sm text-gray-400">Solar Champion</span>
+            <span className="text-xs sm:text-sm text-cyber-orange">{nextMilestone} WATT</span>
           </div>
           <Progress value={progress} className="mb-2" />
-          <div className="text-sm text-gray-400">
+          <div className="text-xs sm:text-sm text-gray-400">
             {remaining.toFixed(0)} WATT remaining
           </div>
         </div>

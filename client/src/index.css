@@ -2,6 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Mobile-first responsive optimizations */
+@media (max-width: 640px) {
+  /* Improve touch targets */
+  .btn-mobile {
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Optimize typography for mobile */
+  .card-title-mobile {
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+  
+  /* Reduce unnecessary padding on mobile */
+  .container-mobile {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Optimize tab navigation for mobile */
+  .tab-mobile {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  /* Improve chart readability on mobile */
+  .chart-mobile {
+    height: 16rem;
+  }
+  
+  /* Stack cards vertically on mobile */
+  .grid-mobile {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid-tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Improve scrolling on mobile */
+@media (max-width: 640px) {
+  .scrollable-mobile {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Optimize form inputs for mobile */
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
 :root {
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(20, 14.3%, 4.1%);

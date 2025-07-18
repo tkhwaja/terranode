@@ -127,15 +127,15 @@ export default function Notifications() {
             notificationList.map((notification: any) => (
               <div
                 key={notification.id}
-                className={`relative p-4 rounded-lg border transition-all duration-200 ${
+                className={`relative p-3 sm:p-4 rounded-lg border transition-all duration-200 ${
                   notification.isRead 
                     ? 'bg-gray-800/20 border-gray-700/30' 
                     : `${getNotificationColor(notification.type, notification.isRead)} hover:bg-opacity-40`
                 }`}
               >
                 <div className="flex items-start justify-between">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-10 h-10 rounded-full bg-gray-700/50 flex items-center justify-center mt-1">
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-700/50 flex items-center justify-center mt-1">
                       {getNotificationIcon(notification.type)}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -147,10 +147,10 @@ export default function Notifications() {
                           <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
                         )}
                       </div>
-                      <h4 className="font-medium text-white mb-1">
+                      <h4 className="font-medium text-white mb-1 text-sm sm:text-base">
                         {notification.title}
                       </h4>
-                      <p className="text-sm text-gray-400 mb-2">
+                      <p className="text-xs sm:text-sm text-gray-400 mb-2">
                         {notification.message}
                       </p>
                       <div className="flex items-center space-x-4 text-xs text-gray-500">

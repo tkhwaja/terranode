@@ -65,10 +65,11 @@ export default function Dashboard() {
               <div className="w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center">
                 <Sun className="w-6 h-6 text-cyan-400" />
               </div>
-              <h1 className="text-xl font-light tracking-wider text-white">TERRANODE</h1>
+              <h1 className="text-xl font-light tracking-wider text-white hidden sm:block">TERRANODE</h1>
+              <h1 className="text-lg font-light tracking-wider text-white sm:hidden">TERRA</h1>
             </div>
             
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <div className="relative">
                 <Button
                   variant="ghost"
@@ -93,7 +94,7 @@ export default function Dashboard() {
                     <User className="w-4 h-4 text-white" />
                   )}
                 </div>
-                <span className="text-sm font-medium">
+                <span className="text-sm font-medium hidden sm:inline">
                   {user?.firstName || user?.email || 'User'}
                 </span>
               </div>
@@ -103,8 +104,8 @@ export default function Dashboard() {
                 size="sm"
                 className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10"
               >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
+                <LogOut className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Logout</span>
               </Button>
             </div>
           </div>
@@ -112,124 +113,168 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6">
+      <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-8 bg-gray-900/50 border border-cyan-900/30">
+          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 bg-gray-900/50 border border-cyan-900/30 h-auto gap-1 p-1">
             <TabsTrigger 
               value="overview" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm"
             >
-              <Sun className="w-4 h-4 mr-2" />
-              Overview
+              <Sun className="w-4 h-4 sm:mr-0" />
+              <span className="sm:hidden">Home</span>
+              <span className="hidden sm:inline">Overview</span>
             </TabsTrigger>
             <TabsTrigger 
               value="wallet" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm"
             >
-              <Coins className="w-4 h-4 mr-2" />
-              Wallet
+              <Coins className="w-4 h-4 sm:mr-0" />
+              <span>Wallet</span>
             </TabsTrigger>
             <TabsTrigger 
               value="milestones" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm"
             >
-              <Trophy className="w-4 h-4 mr-2" />
-              Milestones
+              <Trophy className="w-4 h-4 sm:mr-0" />
+              <span className="sm:hidden">Goals</span>
+              <span className="hidden sm:inline">Milestones</span>
             </TabsTrigger>
             <TabsTrigger 
               value="uptime" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm"
             >
-              <Activity className="w-4 h-4 mr-2" />
-              Uptime
+              <Activity className="w-4 h-4 sm:mr-0" />
+              <span>Uptime</span>
             </TabsTrigger>
             <TabsTrigger 
               value="alliances" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm hidden sm:flex"
             >
-              <Users className="w-4 h-4 mr-2" />
-              Alliances
+              <Users className="w-4 h-4 sm:mr-0" />
+              <span>Alliances</span>
             </TabsTrigger>
             <TabsTrigger 
               value="governance" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm hidden sm:flex"
             >
-              <Vote className="w-4 h-4 mr-2" />
-              Governance
+              <Vote className="w-4 h-4 sm:mr-0" />
+              <span>Governance</span>
             </TabsTrigger>
             <TabsTrigger 
               value="notifications" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 relative"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm relative hidden sm:flex"
             >
-              <Bell className="w-4 h-4 mr-2" />
-              Notifications
+              <Bell className="w-4 h-4 sm:mr-0" />
+              <span>Notifications</span>
               {unreadNotifications > 0 && (
-                <Badge className="ml-2 bg-red-500 text-white text-xs h-5 w-5 rounded-full flex items-center justify-center p-0">
+                <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-4 w-4 rounded-full flex items-center justify-center p-0">
                   {unreadNotifications}
                 </Badge>
               )}
             </TabsTrigger>
             <TabsTrigger 
               value="profile" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm hidden sm:flex"
             >
-              <Settings className="w-4 h-4 mr-2" />
-              Profile
+              <Settings className="w-4 h-4 sm:mr-0" />
+              <span>Profile</span>
             </TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TabsContent value="overview" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <EnergySnapshot />
               <WattWallet />
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <EnergyChart />
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <ReferralSystem />
                 <div className="lg:col-span-2">
                   <EnergyMap />
                 </div>
               </div>
             </div>
+            {/* Mobile-only secondary navigation */}
+            <div className="sm:hidden grid grid-cols-2 gap-4 mt-8">
+              <Button
+                onClick={() => setActiveTab("alliances")}
+                variant="outline"
+                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 h-16 flex flex-col items-center justify-center"
+              >
+                <Users className="w-6 h-6 mb-1" />
+                Alliances
+              </Button>
+              <Button
+                onClick={() => setActiveTab("governance")}
+                variant="outline"
+                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 h-16 flex flex-col items-center justify-center"
+              >
+                <Vote className="w-6 h-6 mb-1" />
+                Governance
+              </Button>
+            </div>
+            <div className="sm:hidden grid grid-cols-2 gap-4">
+              <Button
+                onClick={() => setActiveTab("notifications")}
+                variant="outline"
+                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 h-16 flex flex-col items-center justify-center relative"
+              >
+                <Bell className="w-6 h-6 mb-1" />
+                Notifications
+                {unreadNotifications > 0 && (
+                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full flex items-center justify-center p-0">
+                    {unreadNotifications}
+                  </Badge>
+                )}
+              </Button>
+              <Button
+                onClick={() => setActiveTab("profile")}
+                variant="outline"
+                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 h-16 flex flex-col items-center justify-center"
+              >
+                <Settings className="w-6 h-6 mb-1" />
+                Profile
+              </Button>
+            </div>
           </TabsContent>
 
           {/* Wallet Tab */}
-          <TabsContent value="wallet" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TabsContent value="wallet" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <WattWallet />
               <TokenLedger />
             </div>
           </TabsContent>
 
           {/* Milestones Tab */}
-          <TabsContent value="milestones" className="space-y-6">
+          <TabsContent value="milestones" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
             <Milestones />
           </TabsContent>
 
           {/* Uptime Tab */}
-          <TabsContent value="uptime" className="space-y-6">
+          <TabsContent value="uptime" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
             <UptimeTracker />
           </TabsContent>
 
           {/* Alliances Tab */}
-          <TabsContent value="alliances" className="space-y-6">
+          <TabsContent value="alliances" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
             <SolarAlliances />
           </TabsContent>
 
           {/* Governance Tab */}
-          <TabsContent value="governance" className="space-y-6">
+          <TabsContent value="governance" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
             <AllianceGovernance allianceId={1} isLeader={true} />
           </TabsContent>
 
           {/* Notifications Tab */}
-          <TabsContent value="notifications" className="space-y-6">
+          <TabsContent value="notifications" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
             <Notifications />
           </TabsContent>
 
           {/* Profile Tab */}
-          <TabsContent value="profile" className="space-y-6">
+          <TabsContent value="profile" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
             <UserProfile />
           </TabsContent>
         </Tabs>

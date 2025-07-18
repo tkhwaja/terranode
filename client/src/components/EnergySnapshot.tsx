@@ -11,11 +11,11 @@ export default function EnergySnapshot() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
         {[...Array(3)].map((_, i) => (
           <Card key={i} className="bg-cyber-dark border-cyber-cyan/20 holographic animate-pulse">
-            <CardContent className="p-6">
-              <div className="h-24 bg-cyber-gray/30 rounded"></div>
+            <CardContent className="p-4 sm:p-6">
+              <div className="h-20 sm:h-24 bg-cyber-gray/30 rounded"></div>
             </CardContent>
           </Card>
         ))}
@@ -34,24 +34,24 @@ export default function EnergySnapshot() {
   const consumedPercent = reading.solarGenerated > 0 ? (reading.energyConsumed / reading.solarGenerated) * 100 : 0;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
       {/* Solar Generated */}
       <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-2 sm:pb-3">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs text-cyan-400 uppercase tracking-wider mb-1">Solar Generated</p>
-              <CardTitle className="text-3xl font-light text-white">
+              <CardTitle className="text-2xl sm:text-3xl font-light text-white">
                 {reading.solarGenerated.toFixed(1)}
                 <span className="text-sm text-gray-500 ml-1">kW</span>
               </CardTitle>
             </div>
-            <div className="w-14 h-14 bg-cyan-500/10 rounded-lg flex items-center justify-center">
-              <Sun className="w-7 h-7 text-cyan-400" />
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+              <Sun className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400" />
             </div>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           <div className="space-y-2">
             <div className="flex justify-between text-xs">
               <span className="text-gray-500">Peak Capacity</span>

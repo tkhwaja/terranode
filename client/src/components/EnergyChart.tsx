@@ -143,9 +143,9 @@ export default function EnergyChart() {
       x: {
         ticks: {
           color: '#94a3b8',
-          maxTicksLimit: 8,
+          maxTicksLimit: window.innerWidth < 640 ? 4 : 8,
           font: {
-            size: 11,
+            size: window.innerWidth < 640 ? 9 : 11,
             family: 'Inter',
           }
         },
@@ -195,14 +195,14 @@ export default function EnergyChart() {
         </p>
       </CardHeader>
       <CardContent>
-        <div className="h-96 relative">
+        <div className="h-64 sm:h-96 relative">
           {chartReadings.length > 0 ? (
             <Line data={chartData} options={options} />
           ) : (
             <div className="h-full flex items-center justify-center text-gray-400">
               <div className="text-center">
-                <div className="text-6xl mb-4">📊</div>
-                <p className="text-lg">No energy data available</p>
+                <div className="text-4xl sm:text-6xl mb-4">📊</div>
+                <p className="text-sm sm:text-lg">No energy data available</p>
                 <p className="text-sm">Data will appear as your solar system generates energy</p>
               </div>
             </div>

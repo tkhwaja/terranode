@@ -78,12 +78,12 @@ export default function UptimeTracker() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <div className="text-center">
-              <div className="text-3xl font-light text-cyan-400 mb-2">
+              <div className="text-2xl sm:text-3xl font-light text-cyan-400 mb-2">
                 {uptimePercentage.toFixed(1)}%
               </div>
-              <p className="text-sm text-gray-400 uppercase tracking-wider">
+              <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">
                 Today's Uptime
               </p>
               <Badge variant="outline" className={`mt-2 ${getUptimeColor(uptimePercentage)}`}>
@@ -91,18 +91,18 @@ export default function UptimeTracker() {
               </Badge>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-light text-purple-400 mb-2">
+              <div className="text-2xl sm:text-3xl font-light text-purple-400 mb-2">
                 {weeklyAverage.toFixed(1)}%
               </div>
-              <p className="text-sm text-gray-400 uppercase tracking-wider">
+              <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">
                 Weekly Average
               </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-light text-green-400 mb-2">
+              <div className="text-2xl sm:text-3xl font-light text-green-400 mb-2">
                 {Math.floor(currentUptime.uptimeMinutes / 60)}h
               </div>
-              <p className="text-sm text-gray-400 uppercase tracking-wider">
+              <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">
                 Hours Online Today
               </p>
             </div>
@@ -119,7 +119,7 @@ export default function UptimeTracker() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-7 gap-1 sm:gap-2">
             {last7Days.map((day, index) => {
               const percentage = (day.uptimeMinutes / day.totalMinutes) * 100;
               const hours = Math.floor(day.uptimeMinutes / 60);
@@ -128,28 +128,28 @@ export default function UptimeTracker() {
               return (
                 <div
                   key={index}
-                  className="text-center p-3 bg-gray-800/30 rounded-lg border border-gray-700/50 hover:border-cyan-600/30 transition-colors"
+                  className="text-center p-2 sm:p-3 bg-gray-800/30 rounded-lg border border-gray-700/50 hover:border-cyan-600/30 transition-colors"
                 >
-                  <div className="text-xs text-gray-400 mb-2 uppercase tracking-wider">
+                  <div className="text-xs text-gray-400 mb-1 sm:mb-2 uppercase tracking-wider">
                     {format(day.date, 'EEE')}
                   </div>
-                  <div className="text-lg font-medium text-white mb-2">
+                  <div className="text-sm sm:text-lg font-medium text-white mb-1 sm:mb-2">
                     {formatDayLabel(day.date) === 'Today' || formatDayLabel(day.date) === 'Yesterday' 
                       ? formatDayLabel(day.date).slice(0, 3) 
                       : format(day.date, 'd')}
                   </div>
-                  <div className="mb-2">
-                    <Progress value={percentage} className="h-2" />
+                  <div className="mb-1 sm:mb-2">
+                    <Progress value={percentage} className="h-1 sm:h-2" />
                   </div>
-                  <div className="text-xs text-gray-400">
+                  <div className="text-xs text-gray-400 hidden sm:block">
                     {hours}h {minutes}m
                   </div>
                   <div className="text-xs text-gray-500 mt-1">
                     {percentage.toFixed(0)}%
                   </div>
                   {day.isActive && (
-                    <div className="mt-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full mx-auto"></div>
+                    <div className="mt-1 sm:mt-2">
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-400 rounded-full mx-auto"></div>
                     </div>
                   )}
                 </div>

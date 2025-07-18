@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Custom cyberpunk colors */
+  --cyber-black: hsl(0, 0%, 4%);
+  --cyber-dark: hsl(0, 0%, 10%);
+  --cyber-gray: hsl(0, 0%, 16%);
+  --cyber-cyan: hsl(180, 100%, 50%);
+  --cyber-orange: hsl(20, 100%, 60%);
+  --cyber-purple: hsl(253, 87%, 68%);
+  --cyber-blue: hsl(217, 91%, 60%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-cyber-black {
+    background-color: hsl(0, 0%, 4%);
+  }
+  
+  .bg-cyber-dark {
+    background-color: hsl(0, 0%, 10%);
+  }
+  
+  .bg-cyber-gray {
+    background-color: hsl(0, 0%, 16%);
+  }
+  
+  .text-cyber-cyan {
+    color: hsl(180, 100%, 50%);
+  }
+  
+  .text-cyber-orange {
+    color: hsl(20, 100%, 60%);
+  }
+  
+  .text-cyber-purple {
+    color: hsl(253, 87%, 68%);
+  }
+  
+  .border-cyber-cyan {
+    border-color: hsl(180, 100%, 50%);
+  }
+  
+  .border-cyber-orange {
+    border-color: hsl(20, 100%, 60%);
+  }
+  
+  .border-cyber-purple {
+    border-color: hsl(253, 87%, 68%);
+  }
+  
+  .glow-text {
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  .holographic {
+    background: linear-gradient(135deg, 
+      hsla(180, 100%, 50%, 0.1) 0%, 
+      hsla(253, 87%, 68%, 0.1) 50%, 
+      hsla(20, 100%, 60%, 0.1) 100%);
+  }
+  
+  .shadow-cyber {
+    box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.3);
+  }
+  
+  .shadow-cyber-orange {
+    box-shadow: 0 0 20px hsla(20, 100%, 60%, 0.3);
+  }
+  
+  .shadow-cyber-purple {
+    box-shadow: 0 0 20px hsla(253, 87%, 68%, 0.3);
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px); 
+    }
+    50% { 
+      transform: translateY(-10px); 
+    }
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(0, 0%, 16%);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(180, 100%, 50%);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(180, 100%, 40%);
+  }
+}
+
+/* Custom progress bar styles */
+.progress-bar {
+  background: linear-gradient(90deg, 
+    hsl(180, 100%, 50%) 0%, 
+    hsl(253, 87%, 68%) 50%, 
+    hsl(20, 100%, 60%) 100%);
+}
+
+/* Card glow effects */
+.card-glow {
+  box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.1);
+  border: 1px solid hsla(180, 100%, 50%, 0.2);
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 30px hsla(180, 100%, 50%, 0.2);
+  border: 1px solid hsla(180, 100%, 50%, 0.3);
+}
+
+/* Button glow effects */
+.btn-cyber {
+  background: linear-gradient(135deg, 
+    hsl(180, 100%, 50%) 0%, 
+    hsl(253, 87%, 68%) 100%);
+  box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-cyber:hover {
+  box-shadow: 0 0 30px hsla(180, 100%, 50%, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Typography enhancements */
+.text-glow {
+  text-shadow: 0 0 10px currentColor;
+}
+
+.text-glow-strong {
+  text-shadow: 0 0 20px currentColor;
+}
+
+/* Loading animations */
+.loading-dots {
+  display: inline-block;
+  position: relative;
+  width: 40px;
+  height: 10px;
+}
+
+.loading-dots div {
+  position: absolute;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: hsl(180, 100%, 50%);
+  animation: loading-dots 1.2s linear infinite;
+}
+
+.loading-dots div:nth-child(1) { left: 4px; animation-delay: -0.24s; }
+.loading-dots div:nth-child(2) { left: 16px; animation-delay: -0.12s; }
+.loading-dots div:nth-child(3) { left: 28px; animation-delay: 0s; }
+
+@keyframes loading-dots {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}

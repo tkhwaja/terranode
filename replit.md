@@ -131,3 +131,10 @@ Preferred communication style: Simple, everyday language.
 - **Type Safety**: Full TypeScript coverage across frontend, backend, and database schemas
 
 The application is designed to be deployed on Replit with automatic database provisioning and authentication integration, making it easy to set up and scale.
+
+## Recent Changes (July 2025)
+- **Deployment Complete**: TerraNode successfully deployed to production
+- **UI Improvements**: Fixed energy chart line colors (green/orange/cyan) for better differentiation
+- **Accessibility**: Fixed referral system text colors for better readability
+- **Feature Expansion**: Added comprehensive dashboard with 8 main sections including user profiles, milestones, uptime tracking, notifications, and alliance governance
+- **Database Schema**: All tables successfully created and operational with real-time data generation

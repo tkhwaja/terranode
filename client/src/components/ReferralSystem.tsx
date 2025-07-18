@@ -77,7 +77,7 @@ export default function ReferralSystem() {
         </div>
 
         <div className="mt-6 p-4 bg-cyber-gray/50 rounded-lg">
-          <h4 className="font-semibold mb-2">Leaderboard</h4>
+          <h4 className="font-semibold mb-2 text-white">Leaderboard</h4>
           <div className="space-y-2">
             {leaderboard?.slice(0, 3).map((leader: any, index: number) => (
               <div key={leader.userId} className="flex items-center justify-between">
@@ -85,7 +85,7 @@ export default function ReferralSystem() {
                   <span className="text-sm">
                     {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
                   </span>
-                  <span className="text-sm">
+                  <span className="text-sm text-white">
                     {leader.firstName || 'Anonymous'}
                   </span>
                 </div>

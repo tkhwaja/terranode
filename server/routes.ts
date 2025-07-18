@@ -2,7 +2,18 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
-import { insertEnergyReadingSchema, insertSolarAllianceSchema, insertAllianceMembershipSchema } from "@shared/schema";
+import { 
+  insertEnergyReadingSchema, 
+  insertSolarAllianceSchema, 
+  insertAllianceMembershipSchema,
+  insertTokenLedgerSchema,
+  insertMilestoneSchema,
+  insertUserMilestoneSchema,
+  insertUptimeTrackerSchema,
+  insertNotificationSchema,
+  insertAllianceProposalSchema,
+  insertAllianceVoteSchema
+} from "@shared/schema";
 import { z } from "zod";
 import { dataGenerator } from "./services/dataGenerator";
 
@@ -185,6 +196,202 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error generating demo data:", error);
       res.status(500).json({ message: "Failed to generate demo data" });
+    }
+  });
+
+  // User profile routes
+  app.put('/api/user/profile', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { location, inverterBrand, profileVisibility } = req.body;
+      
+      const updatedUser = await storage.updateUserProfile(userId, {
+        location,
+        inverterBrand,
+        profileVisibility,
+      });
+      
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      res.status(500).json({ message: "Failed to update user profile" });
+    }
+  });
+
+  // Token ledger routes
+  app.get('/api/tokens/ledger', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const limit = req.query.limit ? parseInt(req.query.limit) : 50;
+      const ledger = await storage.getUserTokenLedger(userId, limit);
+      res.json(ledger);
+    } catch (error) {
+      console.error("Error fetching token ledger:", error);
+      res.status(500).json({ message: "Failed to fetch token ledger" });
+    }
+  });
+
+  // Milestone routes
+  app.get('/api/milestones', isAuthenticated, async (req: any, res) => {
+    try {
+      const milestones = await storage.getMilestones();
+      res.json(milestones);
+    } catch (error) {
+      console.error("Error fetching milestones:", error);
+      res.status(500).json({ message: "Failed to fetch milestones" });
+    }
+  });
+
+  app.get('/api/milestones/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const userMilestones = await storage.getUserMilestones(userId);
+      res.json(userMilestones);
+    } catch (error) {
+      console.error("Error fetching user milestones:", error);
+      res.status(500).json({ message: "Failed to fetch user milestones" });
+    }
+  });
+
+  app.post('/api/milestones/:id/unlock', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const milestoneId = parseInt(req.params.id);
+      
+      const unlockedMilestone = await storage.unlockMilestone(userId, milestoneId);
+      
+      // Create notification for unlocked milestone
+      await storage.createNotification({
+        userId,
+        type: 'milestone_unlocked',
+        title: 'Milestone Unlocked!',
+        message: `You've unlocked a new milestone!`,
+      });
+      
+      res.json(unlockedMilestone);
+    } catch (error) {
+      console.error("Error unlocking milestone:", error);
+      res.status(500).json({ message: "Failed to unlock milestone" });
+    }
+  });
+
+  // Uptime tracking routes
+  app.get('/api/uptime/stats', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const days = req.query.days ? parseInt(req.query.days) : 30;
+      const uptimeStats = await storage.getUserUptimeStats(userId, days);
+      res.json(uptimeStats);
+    } catch (error) {
+      console.error("Error fetching uptime stats:", error);
+      res.status(500).json({ message: "Failed to fetch uptime stats" });
+    }
+  });
+
+  app.post('/api/uptime/record', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { date, uptimeMinutes, isActive } = req.body;
+      
+      const record = await storage.recordUptime({
+        userId,
+        date,
+        uptimeMinutes,
+        isActive,
+      });
+      
+      res.json(record);
+    } catch (error) {
+      console.error("Error recording uptime:", error);
+      res.status(500).json({ message: "Failed to record uptime" });
+    }
+  });
+
+  // Notification routes
+  app.get('/api/notifications', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const limit = req.query.limit ? parseInt(req.query.limit) : 20;
+      const notifications = await storage.getUserNotifications(userId, limit);
+      res.json(notifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      res.status(500).json({ message: "Failed to fetch notifications" });
+    }
+  });
+
+  app.post('/api/notifications/:id/read', isAuthenticated, async (req: any, res) => {
+    try {
+      const notificationId = parseInt(req.params.id);
+      await storage.markNotificationAsRead(notificationId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+      res.status(500).json({ message: "Failed to mark notification as read" });
+    }
+  });
+
+  // Alliance governance routes
+  app.get('/api/alliances/:id/proposals', isAuthenticated, async (req: any, res) => {
+    try {
+      const allianceId = parseInt(req.params.id);
+      const proposals = await storage.getAllianceProposals(allianceId);
+      res.json(proposals);
+    } catch (error) {
+      console.error("Error fetching alliance proposals:", error);
+      res.status(500).json({ message: "Failed to fetch alliance proposals" });
+    }
+  });
+
+  app.post('/api/alliances/:id/proposals', isAuthenticated, async (req: any, res) => {
+    try {
+      const allianceId = parseInt(req.params.id);
+      const userId = req.user.claims.sub;
+      const { title, description, type, endsAt } = req.body;
+      
+      const proposal = await storage.createProposal({
+        allianceId,
+        createdBy: userId,
+        title,
+        description,
+        type,
+        endsAt: endsAt ? new Date(endsAt) : undefined,
+      });
+      
+      res.json(proposal);
+    } catch (error) {
+      console.error("Error creating alliance proposal:", error);
+      res.status(500).json({ message: "Failed to create alliance proposal" });
+    }
+  });
+
+  app.post('/api/proposals/:id/vote', isAuthenticated, async (req: any, res) => {
+    try {
+      const proposalId = parseInt(req.params.id);
+      const userId = req.user.claims.sub;
+      const { vote } = req.body;
+      
+      const voteRecord = await storage.voteOnProposal({
+        proposalId,
+        userId,
+        vote,
+      });
+      
+      res.json(voteRecord);
+    } catch (error) {
+      console.error("Error voting on proposal:", error);
+      res.status(500).json({ message: "Failed to vote on proposal" });
+    }
+  });
+
+  app.get('/api/proposals/:id/votes', isAuthenticated, async (req: any, res) => {
+    try {
+      const proposalId = parseInt(req.params.id);
+      const votes = await storage.getProposalVotes(proposalId);
+      res.json(votes);
+    } catch (error) {
+      console.error("Error fetching proposal votes:", error);
+      res.status(500).json({ message: "Failed to fetch proposal votes" });
     }
   });
 

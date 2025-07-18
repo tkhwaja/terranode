@@ -1,0 +1,135 @@
+🎯 **Design Aesthetic Goals:**
+- Sleek, dark-themed interface inspired by sci-fi enterprise UIs
+- Cyberpunk-style glowing accents (neon blue, cyan, purple)
+- Minimal but bold typography with high contrast
+- Glassmorphism, soft blur card UI
+- Animated transitions and hover interactions
+- Beautiful, responsive layout optimized for desktop and tablet
+- Optional central 3D globe or animated data planet (if supported)
+
+---
+
+🧠 **Core Functional Requirements:**
+
+### User System
+- Email/password user authentication
+- User profile page with:
+  - Avatar
+  - Optional location input
+  - Inverter brand selector (optional dropdown or text input)
+  - Public/Private toggle for profile visibility
+
+---
+
+### Energy Snapshot Dashboard
+- Show real-time values:
+  - Solar Generated (kW)
+  - Energy Consumed (kW)
+  - Surplus Exported (kW)
+- Add usage rate and peak capacity indicators
+
+---
+
+### Historical Trends
+- Line chart showing:
+  - Solar Generated
+  - Energy Consumed
+  - Surplus Exported
+- 24-hour view with readable timestamps
+- Smooth lines and glowing data points
+
+---
+
+### Token Wallet & Ledger
+- Simulated $WATT token wallet
+- Token calculation: surplus_exported * 0.75
+- Display:
+  - Today’s earnings
+  - Lifetime earnings
+  - Current rate
+  - Next milestone (progress bar toward goal like "Solar Champion")
+- Token ledger with:
+  - Amount
+  - Type (generation, referral, milestone)
+  - Timestamp
+
+---
+
+### Milestones & Badges
+- Unlockable titles and badges based on:
+  - Uptime streaks
+  - Energy generated/exported
+  - Referral count
+- Display badge progress, unlocked/locked state
+
+---
+
+### Referral System
+- Each user gets a unique referral code
+- Track total referrals and referral bonus
+- Show referral rank and leaderboard
+
+---
+
+### Solar Alliances
+- Users can join or create groups
+- Display group statistics:
+  - Total surplus
+  - Average output
+  - Group rank
+- Roles: Member, Leader
+- Invite system or join requests
+
+---
+
+### Energy Node Map
+- Mock visual map (grid-based or simulated geography)
+- Toggle between Homes, Groups, and Alliances
+- Show node outputs:
+  - High (>10kW)
+  - Medium (5–10kW)
+  - Low (<5kW)
+- Legend and hoverable nodes with output data
+
+---
+
+### Notifications & Email Capture
+- Onboarding email entry or opt-in
+- Notify users of:
+  - Token threshold achieved
+  - Referral bonuses
+  - Group invites
+  - Milestone unlocked
+
+---
+
+### Uptime Tracker
+- Track when user's node is active or inactive
+- Use logs to calculate:
+  - Daily uptime
+  - Weekly/monthly stats
+- Enable uptime-based rewards or achievements
+
+---
+
+### Voting & Governance (Optional)
+- Allow group members to vote on proposals
+  - e.g., “Should we stake our tokens?”
+- Show % vote results (Yes / No / Abstain)
+
+---
+
+### Device Integration Placeholder
+- Mock feature: “Connect My Solar Inverter”
+- UI component for simulated device linking
+- Prepares the app for future real-world data integration
+
+---
+
+### Legal/Compliance Placeholder
+- Prompt user to accept terms of use on first login
+- Placeholder modal for KYC flow (optional)
+
+---
+
+This app should feel like a powerful futuristic control center where solar producers feel in control, inspired, and excited to engage.

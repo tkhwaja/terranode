@@ -25,13 +25,13 @@
   --radius: 0.5rem;
   
   /* Custom cyberpunk colors */
-  --cyber-black: hsl(0, 0%, 4%);
-  --cyber-dark: hsl(0, 0%, 10%);
-  --cyber-gray: hsl(0, 0%, 16%);
-  --cyber-cyan: hsl(180, 100%, 50%);
+  --cyber-black: hsl(200, 20%, 5%);
+  --cyber-dark: hsl(200, 18%, 8%);
+  --cyber-gray: hsl(200, 15%, 12%);
+  --cyber-cyan: hsl(180, 100%, 45%);
   --cyber-orange: hsl(20, 100%, 60%);
   --cyber-purple: hsl(253, 87%, 68%);
-  --cyber-blue: hsl(217, 91%, 60%);
+  --cyber-blue: hsl(195, 100%, 50%);
 }
 
 .dark {

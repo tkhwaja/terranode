@@ -33,15 +33,15 @@ export default function EnergyChart() {
 
   if (isLoading) {
     return (
-      <Card className="bg-cyber-dark border-cyber-cyan/20">
+      <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold glow-text text-cyber-cyan">
-            Historical Energy Trends
+          <CardTitle className="text-lg font-light text-white">
+            HISTORICAL ENERGY TRENDS
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-96 bg-cyber-gray/20 rounded animate-pulse flex items-center justify-center">
-            <div className="text-cyber-cyan">Loading chart data...</div>
+          <div className="h-96 bg-gray-900/50 rounded animate-pulse flex items-center justify-center">
+            <div className="text-cyan-400">Loading chart data...</div>
           </div>
         </CardContent>
       </Card>
@@ -61,38 +61,38 @@ export default function EnergyChart() {
     datasets: [{
       label: 'Solar Generated',
       data: reversedReadings.map((reading: any) => reading.solarGenerated),
-      borderColor: '#ff6b35',
-      backgroundColor: 'rgba(255, 107, 53, 0.1)',
+      borderColor: '#06b6d4',
+      backgroundColor: 'rgba(6, 182, 212, 0.1)',
       tension: 0.4,
       fill: true,
       pointRadius: 3,
       pointHoverRadius: 6,
-      pointBackgroundColor: '#ff6b35',
-      pointBorderColor: '#ffffff',
+      pointBackgroundColor: '#06b6d4',
+      pointBorderColor: '#0f172a',
       pointBorderWidth: 2,
     }, {
       label: 'Energy Consumed',
       data: reversedReadings.map((reading: any) => reading.energyConsumed),
-      borderColor: '#8b5cf6',
-      backgroundColor: 'rgba(139, 92, 246, 0.1)',
+      borderColor: '#0891b2',
+      backgroundColor: 'rgba(8, 145, 178, 0.1)',
       tension: 0.4,
       fill: true,
       pointRadius: 3,
       pointHoverRadius: 6,
-      pointBackgroundColor: '#8b5cf6',
-      pointBorderColor: '#ffffff',
+      pointBackgroundColor: '#0891b2',
+      pointBorderColor: '#0f172a',
       pointBorderWidth: 2,
     }, {
       label: 'Surplus Exported',
       data: reversedReadings.map((reading: any) => reading.surplusExported),
-      borderColor: '#00ffff',
-      backgroundColor: 'rgba(0, 255, 255, 0.1)',
+      borderColor: '#22d3ee',
+      backgroundColor: 'rgba(34, 211, 238, 0.1)',
       tension: 0.4,
       fill: true,
       pointRadius: 3,
       pointHoverRadius: 6,
-      pointBackgroundColor: '#00ffff',
-      pointBorderColor: '#ffffff',
+      pointBackgroundColor: '#22d3ee',
+      pointBorderColor: '#0f172a',
       pointBorderWidth: 2,
     }]
   };
@@ -185,13 +185,13 @@ export default function EnergyChart() {
   };
 
   return (
-    <Card className="bg-cyber-dark border-cyber-cyan/20 shadow-cyber">
+    <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold glow-text text-cyber-cyan">
-          Historical Energy Trends
+        <CardTitle className="text-lg font-light text-white">
+          HISTORICAL ENERGY TRENDS
         </CardTitle>
-        <p className="text-gray-400 text-sm">
-          24-hour energy production and consumption data
+        <p className="text-cyan-400 text-xs uppercase tracking-wider">
+          24-HOUR PRODUCTION AND CONSUMPTION DATA
         </p>
       </CardHeader>
       <CardContent>

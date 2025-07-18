@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 export default function EnergySnapshot() {
   const { data: latestReading, isLoading } = useQuery({
     queryKey: ['/api/energy/latest'],
-    refetchInterval: 30000, // Refresh every 30 seconds
+    refetchInterval: 5000, // Refresh every 5 seconds for real-time updates
   });
 
   if (isLoading) {
@@ -36,84 +36,92 @@ export default function EnergySnapshot() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {/* Solar Generated */}
-      <Card className="bg-cyber-dark border-cyber-cyan/20 holographic">
-        <CardHeader>
+      <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
+        <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
-                <Sun className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <CardTitle className="text-lg">Solar Generated</CardTitle>
-                <p className="text-sm text-gray-400">Current Production</p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold text-cyber-orange glow-text">
+            <div>
+              <p className="text-xs text-cyan-400 uppercase tracking-wider mb-1">Solar Generated</p>
+              <CardTitle className="text-3xl font-light text-white">
                 {reading.solarGenerated.toFixed(1)}
-              </div>
-              <div className="text-sm text-gray-400">kW</div>
+                <span className="text-sm text-gray-500 ml-1">kW</span>
+              </CardTitle>
+            </div>
+            <div className="w-14 h-14 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+              <Sun className="w-7 h-7 text-cyan-400" />
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <Progress value={solarPercent} className="mb-2" />
-          <div className="text-sm text-gray-400">{solarPercent.toFixed(0)}% of peak capacity</div>
+          <div className="space-y-2">
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-500">Peak Capacity</span>
+              <span className="text-cyan-400">{solarPercent.toFixed(0)}%</span>
+            </div>
+            <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-cyan-500 to-cyan-400 transition-all duration-500"
+                style={{ width: `${solarPercent}%` }}
+              />
+            </div>
+          </div>
         </CardContent>
       </Card>
 
       {/* Energy Consumed */}
-      <Card className="bg-cyber-dark border-cyber-cyan/20 holographic">
-        <CardHeader>
+      <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
+        <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <Home className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <CardTitle className="text-lg">Energy Consumed</CardTitle>
-                <p className="text-sm text-gray-400">Home Usage</p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold text-cyber-purple glow-text">
+            <div>
+              <p className="text-xs text-cyan-400 uppercase tracking-wider mb-1">Energy Consumed</p>
+              <CardTitle className="text-3xl font-light text-white">
                 {reading.energyConsumed.toFixed(1)}
-              </div>
-              <div className="text-sm text-gray-400">kW</div>
+                <span className="text-sm text-gray-500 ml-1">kW</span>
+              </CardTitle>
+            </div>
+            <div className="w-14 h-14 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+              <Home className="w-7 h-7 text-cyan-400" />
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <Progress value={Math.min(consumedPercent, 100)} className="mb-2" />
-          <div className="text-sm text-gray-400">{consumedPercent.toFixed(0)}% of generation</div>
+          <div className="space-y-2">
+            <div className="flex justify-between text-xs">
+              <span className="text-gray-500">Usage Rate</span>
+              <span className="text-cyan-400">{Math.min(consumedPercent, 100).toFixed(0)}%</span>
+            </div>
+            <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-cyan-500 to-cyan-400 transition-all duration-500"
+                style={{ width: `${Math.min(consumedPercent, 100)}%` }}
+              />
+            </div>
+          </div>
         </CardContent>
       </Card>
 
       {/* Surplus Exported */}
-      <Card className="bg-cyber-dark border-cyber-cyan/20 holographic">
-        <CardHeader>
+      <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
+        <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                <Upload className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <CardTitle className="text-lg">Surplus Exported</CardTitle>
-                <p className="text-sm text-gray-400">Grid Export</p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold text-cyber-cyan glow-text">
+            <div>
+              <p className="text-xs text-cyan-400 uppercase tracking-wider mb-1">Surplus Exported</p>
+              <CardTitle className="text-3xl font-light text-white">
                 {reading.surplusExported.toFixed(1)}
-              </div>
-              <div className="text-sm text-gray-400">kW</div>
+                <span className="text-sm text-gray-500 ml-1">kW</span>
+              </CardTitle>
+            </div>
+            <div className="w-14 h-14 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+              <Upload className="w-7 h-7 text-cyan-400" />
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <Progress value={reading.surplusExported > 0 ? 100 : 0} className="mb-2" />
-          <div className="text-sm text-gray-400">
-            {reading.surplusExported > 0 ? 'Earning WATT tokens' : 'No surplus'}
+          <div className={`text-center py-2 px-3 rounded ${reading.surplusExported > 0 ? 'bg-cyan-500/10 text-cyan-400' : 'bg-gray-800 text-gray-500'}`}>
+            <p className="text-xs">
+              {reading.surplusExported > 0
+                ? `+${(reading.surplusExported * 0.75).toFixed(2)} WATT Earned`
+                : 'No Surplus Currently'}
+            </p>
           </div>
         </CardContent>
       </Card>

@@ -6,7 +6,7 @@ import { Coins } from "lucide-react";
 export default function WattWallet() {
   const { data: wallet, isLoading } = useQuery({
     queryKey: ['/api/wallet'],
-    refetchInterval: 30000,
+    refetchInterval: 5000, // Refresh every 5 seconds for real-time updates
   });
 
   if (isLoading) {
@@ -31,15 +31,15 @@ export default function WattWallet() {
   const remaining = Math.max(nextMilestone - currentBalance, 0);
 
   return (
-    <Card className="bg-cyber-dark border-cyber-cyan/20 holographic">
+    <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-bold glow-text text-cyber-orange">
-            WATT Wallet
+          <CardTitle className="text-lg font-light text-white">
+            WATT WALLET
           </CardTitle>
           <div className="flex items-center space-x-2">
-            <Coins className="w-8 h-8 text-cyber-orange" />
-            <span className="text-3xl font-bold text-cyber-orange glow-text">
+            <Coins className="w-6 h-6 text-cyan-400" />
+            <span className="text-2xl font-light text-cyan-400">
               {walletData.wattBalance.toFixed(0)}
             </span>
           </div>

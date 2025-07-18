@@ -37,16 +37,16 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-cyber-black text-white">
+    <div className="min-h-screen bg-gray-950 text-white">
       {/* Navigation Header */}
-      <header className="bg-cyber-dark border-b border-cyber-cyan/20 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+      <header className="bg-gray-900/50 border-b border-cyan-900/30 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-cyber-cyan to-cyber-purple rounded-lg flex items-center justify-center shadow-cyber">
-                <Sun className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+                <Sun className="w-6 h-6 text-cyan-400" />
               </div>
-              <h1 className="text-2xl font-bold glow-text text-cyber-cyan">TerraNode</h1>
+              <h1 className="text-xl font-light tracking-wider text-white">TERRANODE</h1>
             </div>
             
             <nav className="hidden md:flex space-x-8">

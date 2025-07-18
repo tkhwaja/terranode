@@ -12,11 +12,14 @@ export default function EnergyMap() {
   ];
 
   const energyNodes = [
-    { id: 1, x: 33, y: 25, type: 'high', color: 'cyber-cyan' },
-    { id: 2, x: 75, y: 50, type: 'medium', color: 'cyber-orange' },
-    { id: 3, x: 25, y: 67, type: 'low', color: 'cyber-purple' },
-    { id: 4, x: 67, y: 33, type: 'high', color: 'green-500' },
-    { id: 5, x: 50, y: 75, type: 'medium', color: 'yellow-400' },
+    { id: 1, x: 33, y: 25, type: 'high', power: 12.5 },
+    { id: 2, x: 75, y: 50, type: 'medium', power: 7.8 },
+    { id: 3, x: 25, y: 67, type: 'low', power: 3.2 },
+    { id: 4, x: 67, y: 33, type: 'high', power: 11.0 },
+    { id: 5, x: 50, y: 75, type: 'medium', power: 6.5 },
+    { id: 6, x: 15, y: 30, type: 'high', power: 10.2 },
+    { id: 7, x: 85, y: 20, type: 'low', power: 2.8 },
+    { id: 8, x: 45, y: 45, type: 'medium', power: 8.1 },
   ];
 
   return (
@@ -65,43 +68,65 @@ export default function EnergyMap() {
           
           {/* Energy Nodes */}
           <div className="absolute inset-0">
-            {energyNodes.map((node) => (
-              <div key={node.id} className="absolute">
-                <div
-                  className={`w-4 h-4 bg-${node.color} rounded-full shadow-lg animate-pulse`}
-                  style={{
-                    left: `${node.x}%`,
-                    top: `${node.y}%`,
-                    transform: 'translate(-50%, -50%)',
-                  }}
-                ></div>
-                <div
-                  className={`w-8 h-8 bg-${node.color}/20 rounded-full`}
-                  style={{
-                    left: `${node.x}%`,
-                    top: `${node.y}%`,
-                    transform: 'translate(-50%, -50%)',
-                  }}
-                ></div>
-              </div>
-            ))}
+            {energyNodes.map((node) => {
+              const nodeColor = node.type === 'high' ? 'bg-cyan-400' : 
+                               node.type === 'medium' ? 'bg-cyan-600' : 
+                               'bg-cyan-800';
+              const glowColor = node.type === 'high' ? 'shadow-cyan-400/50' : 
+                               node.type === 'medium' ? 'shadow-cyan-600/50' : 
+                               'shadow-cyan-800/50';
+              
+              return (
+                <div key={node.id} className="absolute group cursor-pointer">
+                  {/* Outer glow */}
+                  <div
+                    className={`absolute w-12 h-12 ${nodeColor} opacity-20 rounded-full blur-xl animate-pulse`}
+                    style={{
+                      left: `${node.x}%`,
+                      top: `${node.y}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                  />
+                  {/* Inner node */}
+                  <div
+                    className={`absolute w-3 h-3 ${nodeColor} rounded-full shadow-lg ${glowColor} animate-pulse transition-all hover:scale-150`}
+                    style={{
+                      left: `${node.x}%`,
+                      top: `${node.y}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                  />
+                  {/* Tooltip on hover */}
+                  <div
+                    className="absolute opacity-0 group-hover:opacity-100 bg-gray-900 text-white text-xs px-2 py-1 rounded pointer-events-none transition-opacity"
+                    style={{
+                      left: `${node.x}%`,
+                      top: `${node.y}%`,
+                      transform: 'translate(-50%, -150%)',
+                    }}
+                  >
+                    {node.power} kW
+                  </div>
+                </div>
+              );
+            })}
           </div>
           
           {/* Map Legend */}
-          <div className="absolute bottom-4 left-4 bg-cyber-dark/80 p-3 rounded-lg">
-            <h4 className="text-sm font-semibold mb-2">Legend</h4>
+          <div className="absolute bottom-4 left-4 bg-gray-900/90 border border-cyan-900/30 p-3 rounded-lg backdrop-blur">
+            <h4 className="text-xs text-cyan-400 uppercase tracking-wider mb-2">NODE OUTPUT</h4>
             <div className="space-y-1 text-xs">
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-cyber-cyan rounded-full"></div>
-                <span>High Output (&gt;10kW)</span>
+                <div className="w-3 h-3 bg-cyan-400 rounded-full shadow-lg shadow-cyan-400/50"></div>
+                <span className="text-gray-300">High Output (&gt;10kW)</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-cyber-orange rounded-full"></div>
-                <span>Medium Output (5-10kW)</span>
+                <div className="w-3 h-3 bg-cyan-600 rounded-full shadow-lg shadow-cyan-600/50"></div>
+                <span className="text-gray-300">Medium Output (5-10kW)</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-cyber-purple rounded-full"></div>
-                <span>Low Output (&lt;5kW)</span>
+                <div className="w-3 h-3 bg-cyan-800 rounded-full shadow-lg shadow-cyan-800/50"></div>
+                <span className="text-gray-300">Low Output (&lt;5kW)</span>
               </div>
             </div>
           </div>

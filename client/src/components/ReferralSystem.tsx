@@ -41,7 +41,7 @@ export default function ReferralSystem() {
       </CardHeader>
       <CardContent>
         <div className="mb-6">
-          <Label className="block text-sm font-medium mb-2">Your Referral Code</Label>
+          <Label className="block text-sm font-medium mb-2 text-white">Your Referral Code</Label>
           <div className="flex items-center space-x-2">
             <Input
               value={referralCode}

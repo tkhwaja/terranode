@@ -128,7 +128,7 @@ export default function Dashboard() {
       <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Mobile/Tablet Navigation - Hamburger Menu */}
-          <div className="lg:hidden mb-4">
+          <div className="mobile-nav mb-4">
             <div className="flex items-center justify-between bg-gray-900/50 border border-cyan-900/30 rounded-lg p-3">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
@@ -207,7 +207,7 @@ export default function Dashboard() {
           </div>
 
           {/* Desktop Navigation (lg+ screens) - Full Horizontal Tabs */}
-          <div className="hidden lg:block mb-4">
+          <div className="desktop-nav mb-4">
             <div className="grid grid-cols-8 bg-gray-900/50 border border-cyan-900/30 rounded-lg gap-1 p-1">
               <Button
                 variant={activeTab === "overview" ? "secondary" : "ghost"}

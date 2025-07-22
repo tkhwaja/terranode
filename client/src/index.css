@@ -318,3 +318,16 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Force hide desktop navigation on mobile screens */
+@media (max-width: 1023px) {
+  .desktop-nav {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-nav {
+    display: none !important;
+  }
+}

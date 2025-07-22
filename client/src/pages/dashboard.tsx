@@ -127,76 +127,10 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          {/* Desktop Navigation */}
-          <TabsList className="hidden sm:grid w-full grid-cols-8 bg-gray-900/50 border border-cyan-900/30 h-auto gap-1 p-1">
-            <TabsTrigger 
-              value="overview" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-2 px-3 text-sm"
-            >
-              <Sun className="w-4 h-4" />
-              <span>Overview</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="wallet" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-2 px-3 text-sm"
-            >
-              <Coins className="w-4 h-4" />
-              <span>Wallet</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="milestones" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-2 px-3 text-sm"
-            >
-              <Trophy className="w-4 h-4" />
-              <span>Milestones</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="uptime" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-2 px-3 text-sm"
-            >
-              <Activity className="w-4 h-4" />
-              <span>Uptime</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="alliances" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-2 px-3 text-sm"
-            >
-              <Users className="w-4 h-4" />
-              <span>Alliances</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="governance" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-2 px-3 text-sm"
-            >
-              <Vote className="w-4 h-4" />
-              <span>Governance</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="notifications" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-2 px-3 text-sm relative"
-            >
-              <Bell className="w-4 h-4" />
-              <span>Notifications</span>
-              {unreadNotifications > 0 && (
-                <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-4 w-4 rounded-full flex items-center justify-center p-0">
-                  {unreadNotifications}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger 
-              value="profile" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-2 px-3 text-sm"
-            >
-              <Settings className="w-4 h-4" />
-              <span>Profile</span>
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Mobile Navigation - Horizontal Scroll + Hamburger Menu */}
-          <div className="sm:hidden space-y-3 mb-4">
-            {/* Current tab indicator with hamburger menu */}
-            <div className="flex items-center justify-between bg-gray-900/50 border border-cyan-900/30 rounded-lg p-2">
-              <div className="flex items-center gap-2">
+          {/* Mobile Navigation (xs and sm screens) - Hamburger Menu */}
+          <div className="md:hidden mb-4">
+            <div className="flex items-center justify-between bg-gray-900/50 border border-cyan-900/30 rounded-lg p-3">
+              <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
                   {activeTab === "overview" && <Sun className="w-5 h-5 text-cyan-400" />}
                   {activeTab === "wallet" && <Coins className="w-5 h-5 text-cyan-400" />}
@@ -207,9 +141,16 @@ export default function Dashboard() {
                   {activeTab === "notifications" && <Bell className="w-5 h-5 text-cyan-400" />}
                   {activeTab === "profile" && <Settings className="w-5 h-5 text-cyan-400" />}
                 </div>
-                <span className="text-cyan-400 font-medium capitalize">
-                  {activeTab === "overview" ? "Home" : activeTab}
-                </span>
+                <div>
+                  <span className="text-cyan-400 font-medium capitalize text-lg">
+                    {activeTab === "overview" ? "Home" : activeTab}
+                  </span>
+                  {activeTab === "notifications" && unreadNotifications > 0 && (
+                    <Badge className="ml-2 bg-red-500 text-white text-xs">
+                      {unreadNotifications} new
+                    </Badge>
+                  )}
+                </div>
               </div>
 
               <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
@@ -217,32 +158,32 @@ export default function Dashboard() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
+                    className="text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10 p-2"
                   >
-                    <Menu className="w-5 h-5" />
+                    <Menu className="w-6 h-6" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="bg-gray-950 border-cyan-900/30 w-80">
                   <SheetHeader>
-                    <SheetTitle className="text-cyan-400 text-lg font-light">Navigation</SheetTitle>
+                    <SheetTitle className="text-cyan-400 text-xl font-light">Navigation</SheetTitle>
                   </SheetHeader>
-                  <div className="flex flex-col space-y-2 mt-6">
+                  <div className="flex flex-col space-y-3 mt-8">
                     {[
-                      { value: "overview", icon: Sun, label: "Home" },
-                      { value: "wallet", icon: Coins, label: "Wallet" },
-                      { value: "milestones", icon: Trophy, label: "Milestones" },
-                      { value: "uptime", icon: Activity, label: "Uptime" },
-                      { value: "alliances", icon: Users, label: "Alliances" },
-                      { value: "governance", icon: Vote, label: "Governance" },
+                      { value: "overview", icon: Sun, label: "Home Overview" },
+                      { value: "wallet", icon: Coins, label: "WATT Wallet" },
+                      { value: "milestones", icon: Trophy, label: "Milestones & Goals" },
+                      { value: "uptime", icon: Activity, label: "System Uptime" },
+                      { value: "alliances", icon: Users, label: "Solar Alliances" },
+                      { value: "governance", icon: Vote, label: "Alliance Governance" },
                       { value: "notifications", icon: Bell, label: "Notifications" },
-                      { value: "profile", icon: Settings, label: "Profile" },
+                      { value: "profile", icon: Settings, label: "Profile & Settings" },
                     ].map(({ value, icon: Icon, label }) => (
                       <Button
                         key={value}
                         variant={activeTab === value ? "secondary" : "ghost"}
-                        className={`justify-start h-12 ${
+                        className={`justify-start h-14 px-4 ${
                           activeTab === value
-                            ? "bg-cyan-600/20 text-cyan-400 border-cyan-600/50"
+                            ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
                             : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
                         }`}
                         onClick={() => {
@@ -250,8 +191,8 @@ export default function Dashboard() {
                           setIsMenuOpen(false);
                         }}
                       >
-                        <Icon className="w-5 h-5 mr-3" />
-                        <span>{label}</span>
+                        <Icon className="w-5 h-5 mr-4" />
+                        <span className="text-sm">{label}</span>
                         {value === "notifications" && unreadNotifications > 0 && (
                           <Badge className="ml-auto bg-red-500 text-white text-xs h-5 w-5 rounded-full flex items-center justify-center p-0">
                             {unreadNotifications}
@@ -263,46 +204,114 @@ export default function Dashboard() {
                 </SheetContent>
               </Sheet>
             </div>
+          </div>
 
-            {/* Horizontal scroll tabs as fallback */}
-            <div className="overflow-x-auto scrollbar-hide">
-              <div className="flex space-x-2 pb-2 whitespace-nowrap">
-                {[
-                  { value: "overview", icon: Sun, label: "Home" },
-                  { value: "wallet", icon: Coins, label: "Wallet" },
-                  { value: "milestones", icon: Trophy, label: "Goals" },
-                  { value: "uptime", icon: Activity, label: "Uptime" },
-                  { value: "alliances", icon: Users, label: "Teams" },
-                  { value: "governance", icon: Vote, label: "Vote" },
-                  { value: "notifications", icon: Bell, label: "Alerts" },
-                  { value: "profile", icon: Settings, label: "Settings" },
-                ].map(({ value, icon: Icon, label }) => (
-                  <Button
-                    key={value}
-                    variant={activeTab === value ? "secondary" : "ghost"}
-                    size="sm"
-                    className={`flex-shrink-0 h-10 px-3 ${
-                      activeTab === value
-                        ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                        : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10 border border-transparent"
-                    }`}
-                    onClick={() => setActiveTab(value)}
-                  >
-                    <Icon className="w-4 h-4 mr-1.5" />
-                    <span className="text-xs font-medium">{label}</span>
-                    {value === "notifications" && unreadNotifications > 0 && (
-                      <Badge className="ml-1.5 bg-red-500 text-white text-xs h-4 w-4 rounded-full flex items-center justify-center p-0">
-                        {unreadNotifications}
-                      </Badge>
-                    )}
-                  </Button>
-                ))}
+          {/* Tablet Navigation (md screens) - Horizontal Scroll */}
+          <div className="hidden md:block lg:hidden mb-4">
+            <div className="bg-gray-900/50 border border-cyan-900/30 rounded-lg p-2">
+              <div className="overflow-x-auto scrollbar-hide">
+                <div className="flex space-x-2 whitespace-nowrap px-2">
+                  {[
+                    { value: "overview", icon: Sun, label: "Home" },
+                    { value: "wallet", icon: Coins, label: "Wallet" },
+                    { value: "milestones", icon: Trophy, label: "Milestones" },
+                    { value: "uptime", icon: Activity, label: "Uptime" },
+                    { value: "alliances", icon: Users, label: "Alliances" },
+                    { value: "governance", icon: Vote, label: "Governance" },
+                    { value: "notifications", icon: Bell, label: "Alerts" },
+                    { value: "profile", icon: Settings, label: "Profile" },
+                  ].map(({ value, icon: Icon, label }) => (
+                    <Button
+                      key={value}
+                      variant={activeTab === value ? "secondary" : "ghost"}
+                      className={`flex-shrink-0 h-12 px-4 gap-x-2 ${
+                        activeTab === value
+                          ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
+                          : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10 border border-transparent"
+                      }`}
+                      onClick={() => setActiveTab(value)}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span className="text-sm font-medium">{label}</span>
+                      {value === "notifications" && unreadNotifications > 0 && (
+                        <Badge className="ml-1 bg-red-500 text-white text-xs h-4 w-4 rounded-full flex items-center justify-center p-0">
+                          {unreadNotifications}
+                        </Badge>
+                      )}
+                    </Button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
+          {/* Desktop Navigation (lg+ screens) - Full Horizontal Tabs */}
+          <TabsList className="hidden lg:grid w-full grid-cols-8 bg-gray-900/50 border border-cyan-900/30 h-auto gap-1 p-1 mb-4">
+            <TabsTrigger 
+              value="overview" 
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
+            >
+              <Sun className="w-4 h-4" />
+              <span>Overview</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="wallet" 
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
+            >
+              <Coins className="w-4 h-4" />
+              <span>Wallet</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="milestones" 
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
+            >
+              <Trophy className="w-4 h-4" />
+              <span>Milestones</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="uptime" 
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
+            >
+              <Activity className="w-4 h-4" />
+              <span>Uptime</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="alliances" 
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
+            >
+              <Users className="w-4 h-4" />
+              <span>Alliances</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="governance" 
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
+            >
+              <Vote className="w-4 h-4" />
+              <span>Governance</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="notifications" 
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium relative"
+            >
+              <Bell className="w-4 h-4" />
+              <span>Notifications</span>
+              {unreadNotifications > 0 && (
+                <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full flex items-center justify-center p-0">
+                  {unreadNotifications}
+                </Badge>
+              )}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="profile" 
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
+            >
+              <Settings className="w-4 h-4" />
+              <span>Profile</span>
+            </TabsTrigger>
+          </TabsList>
+
           {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+          <TabsContent value="overview" className="space-y-4 sm:space-y-6">
             <EnergySnapshot />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <WattWallet />
@@ -344,7 +353,7 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* Wallet Tab */}
-          <TabsContent value="wallet" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+          <TabsContent value="wallet" className="space-y-4 sm:space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <WattWallet />
               <TokenLedger />
@@ -352,32 +361,32 @@ export default function Dashboard() {
           </TabsContent>
 
           {/* Milestones Tab */}
-          <TabsContent value="milestones" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+          <TabsContent value="milestones" className="space-y-4 sm:space-y-6">
             <Milestones />
           </TabsContent>
 
           {/* Uptime Tab */}
-          <TabsContent value="uptime" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+          <TabsContent value="uptime" className="space-y-4 sm:space-y-6">
             <UptimeTracker />
           </TabsContent>
 
           {/* Alliances Tab */}
-          <TabsContent value="alliances" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+          <TabsContent value="alliances" className="space-y-4 sm:space-y-6">
             <SolarAlliances />
           </TabsContent>
 
           {/* Governance Tab */}
-          <TabsContent value="governance" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+          <TabsContent value="governance" className="space-y-4 sm:space-y-6">
             <AllianceGovernance allianceId={1} isLeader={true} />
           </TabsContent>
 
           {/* Notifications Tab */}
-          <TabsContent value="notifications" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+          <TabsContent value="notifications" className="space-y-4 sm:space-y-6">
             <Notifications />
           </TabsContent>
 
           {/* Profile Tab */}
-          <TabsContent value="profile" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+          <TabsContent value="profile" className="space-y-4 sm:space-y-6">
             <UserProfile />
           </TabsContent>
         </Tabs>

@@ -127,8 +127,8 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          {/* Mobile Navigation (xs and sm screens) - Hamburger Menu */}
-          <div className="md:hidden mb-4">
+          {/* Mobile/Tablet Navigation - Hamburger Menu */}
+          <div className="lg:hidden mb-4">
             <div className="flex items-center justify-between bg-gray-900/50 border border-cyan-900/30 rounded-lg p-3">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
@@ -203,45 +203,6 @@ export default function Dashboard() {
                   </div>
                 </SheetContent>
               </Sheet>
-            </div>
-          </div>
-
-          {/* Tablet Navigation (md screens) - Horizontal Scroll */}
-          <div className="hidden md:block lg:hidden mb-4">
-            <div className="bg-gray-900/50 border border-cyan-900/30 rounded-lg p-2">
-              <div className="overflow-x-auto scrollbar-hide">
-                <div className="flex space-x-2 whitespace-nowrap px-2">
-                  {[
-                    { value: "overview", icon: Sun, label: "Home" },
-                    { value: "wallet", icon: Coins, label: "Wallet" },
-                    { value: "milestones", icon: Trophy, label: "Milestones" },
-                    { value: "uptime", icon: Activity, label: "Uptime" },
-                    { value: "alliances", icon: Users, label: "Alliances" },
-                    { value: "governance", icon: Vote, label: "Governance" },
-                    { value: "notifications", icon: Bell, label: "Alerts" },
-                    { value: "profile", icon: Settings, label: "Profile" },
-                  ].map(({ value, icon: Icon, label }) => (
-                    <Button
-                      key={value}
-                      variant={activeTab === value ? "secondary" : "ghost"}
-                      className={`flex-shrink-0 h-12 px-4 gap-x-2 ${
-                        activeTab === value
-                          ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                          : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10 border border-transparent"
-                      }`}
-                      onClick={() => setActiveTab(value)}
-                    >
-                      <Icon className="w-4 h-4" />
-                      <span className="text-sm font-medium">{label}</span>
-                      {value === "notifications" && unreadNotifications > 0 && (
-                        <Badge className="ml-1 bg-red-500 text-white text-xs h-4 w-4 rounded-full flex items-center justify-center p-0">
-                          {unreadNotifications}
-                        </Badge>
-                      )}
-                    </Button>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
 

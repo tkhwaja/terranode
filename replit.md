@@ -134,7 +134,9 @@ The application is designed to be deployed on Replit with automatic database pro
 
 ## Recent Changes (July 2025)
 - **Deployment Complete**: TerraNode successfully deployed to production
-- **UI Improvements**: Fixed energy chart line colors (green/orange/cyan) for better differentiation
-- **Accessibility**: Fixed referral system text colors for better readability
+- **Live WATT Ticker**: Implemented real-time WebSocket updates for token balance with smooth animations and earning badges
+- **Responsive Navigation**: Fixed mobile navigation issues with proper hamburger menu implementation
+- **UI Improvements**: Fixed energy chart line colors (green/orange/cyan) and navigation responsiveness
+- **Accessibility**: Fixed referral system text colors and navigation breakpoints for better mobile experience
 - **Feature Expansion**: Added comprehensive dashboard with 8 main sections including user profiles, milestones, uptime tracking, notifications, and alliance governance
 - **Database Schema**: All tables successfully created and operational with real-time data generation

@@ -33,68 +33,76 @@ export default function ReferralSystem() {
   };
 
   return (
-    <Card className="bg-cyber-dark border-cyber-cyan/20 holographic">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold glow-text text-cyber-purple">
-          Referral System
+    <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg sm:text-xl font-light text-white">
+          REFERRAL SYSTEM
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="mb-6">
-          <Label className="block text-sm font-medium mb-2 text-white">Your Referral Code</Label>
-          <div className="flex items-center space-x-2">
+      <CardContent className="space-y-4 sm:space-y-6">
+        <div>
+          <Label className="block text-xs sm:text-sm font-medium mb-2 text-cyan-400 uppercase tracking-wider">Your Referral Code</Label>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <Input
               value={referralCode}
               readOnly
-              className="bg-cyber-gray/50 border-cyber-purple/30 text-cyber-purple font-mono"
+              className="bg-gray-800/50 border-cyan-900/30 text-cyan-400 font-mono text-sm flex-1 min-h-[44px]"
             />
             <Button
               onClick={copyReferralCode}
               className={`${
                 copied
                   ? 'bg-green-500 hover:bg-green-600'
-                  : 'bg-cyber-purple hover:bg-cyber-purple/80'
-              } px-4 py-2 transition-colors`}
+                  : 'bg-cyan-600 hover:bg-cyan-700'
+              } min-h-[44px] px-4 sm:px-6 transition-colors`}
             >
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+              <span className="ml-2 sm:hidden">{copied ? 'Copied!' : 'Copy'}</span>
             </Button>
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <span className="text-gray-400">Total Referrals</span>
-            <span className="text-cyber-purple font-bold">{stats.totalReferrals}</span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="text-center sm:text-left">
+            <div className="text-xl sm:text-2xl font-light text-cyan-400 mb-1">
+              {stats.totalReferrals}
+            </div>
+            <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">Total Referrals</div>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-400">Referral Bonus</span>
-            <span className="text-cyber-purple font-bold">+{stats.referralBonus} WATT</span>
+          <div className="text-center sm:text-left">
+            <div className="text-xl sm:text-2xl font-light text-orange-400 mb-1">
+              +{stats.referralBonus}
+            </div>
+            <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">Bonus WATT</div>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-400">Your Rank</span>
-            <span className="text-cyber-purple font-bold">#--</span>
+          <div className="text-center sm:text-left">
+            <div className="text-xl sm:text-2xl font-light text-purple-400 mb-1">
+              #--
+            </div>
+            <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">Your Rank</div>
           </div>
         </div>
 
-        <div className="mt-6 p-4 bg-cyber-gray/50 rounded-lg">
-          <h4 className="font-semibold mb-2 text-white">Leaderboard</h4>
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-gray-800/50 rounded-lg">
+          <h4 className="font-medium mb-3 text-white text-sm sm:text-base">Top Referrers</h4>
           <div className="space-y-2">
-            {leaderboard?.slice(0, 3).map((leader: any, index: number) => (
+            {(leaderboard || []).slice(0, 3).map((leader: any, index: number) => (
               <div key={leader.userId} className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <span className="text-sm">
                     {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
                   </span>
-                  <span className="text-sm text-white">
+                  <span className="text-xs sm:text-sm text-white">
                     {leader.firstName || 'Anonymous'}
                   </span>
                 </div>
-                <span className="text-sm text-cyber-purple">
+                <span className="text-xs sm:text-sm text-cyan-400">
                   {leader.referralCount} referrals
                 </span>
               </div>
-            )) || (
-              <div className="text-sm text-gray-400">No data available</div>
+            ))}
+            {(!leaderboard || leaderboard.length === 0) && (
+              <div className="text-xs sm:text-sm text-gray-400">No data available</div>
             )}
           </div>
         </div>

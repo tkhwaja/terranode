@@ -33,15 +33,15 @@ export default function EnergyChart() {
 
   if (isLoading) {
     return (
-      <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
+      <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-light text-white">
+          <CardTitle className="text-lg sm:text-xl font-light text-white">
             HISTORICAL ENERGY TRENDS
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-96 bg-gray-900/50 rounded animate-pulse flex items-center justify-center">
-            <div className="text-cyan-400">Loading chart data...</div>
+          <div className="h-64 sm:h-80 lg:h-96 bg-gray-900/50 rounded animate-pulse flex items-center justify-center">
+            <div className="text-cyan-400 text-sm sm:text-base">Loading chart data...</div>
           </div>
         </CardContent>
       </Card>
@@ -185,25 +185,25 @@ export default function EnergyChart() {
   };
 
   return (
-    <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
+    <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle className="text-lg font-light text-white">
+        <CardTitle className="text-lg sm:text-xl font-light text-white">
           HISTORICAL ENERGY TRENDS
         </CardTitle>
-        <p className="text-cyan-400 text-xs uppercase tracking-wider">
+        <p className="text-cyan-400 text-xs sm:text-sm uppercase tracking-wider">
           24-HOUR PRODUCTION AND CONSUMPTION DATA
         </p>
       </CardHeader>
       <CardContent>
-        <div className="h-64 sm:h-96 relative">
+        <div className="h-64 sm:h-80 lg:h-96 relative overflow-hidden">
           {chartReadings.length > 0 ? (
             <Line data={chartData} options={options} />
           ) : (
             <div className="h-full flex items-center justify-center text-gray-400">
               <div className="text-center">
-                <div className="text-4xl sm:text-6xl mb-4">📊</div>
-                <p className="text-sm sm:text-lg">No energy data available</p>
-                <p className="text-sm">Data will appear as your solar system generates energy</p>
+                <div className="text-3xl sm:text-4xl lg:text-6xl mb-4">📊</div>
+                <p className="text-sm sm:text-base lg:text-lg">No energy data available</p>
+                <p className="text-xs sm:text-sm">Data will appear as your solar system generates energy</p>
               </div>
             </div>
           )}

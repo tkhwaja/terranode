@@ -118,7 +118,7 @@ export default function Dashboard() {
           <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 bg-gray-900/50 border border-cyan-900/30 h-auto gap-1 p-1">
             <TabsTrigger 
               value="overview" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm min-h-[44px] sm:min-h-0"
             >
               <Sun className="w-4 h-4 sm:mr-0" />
               <span className="sm:hidden">Home</span>
@@ -126,14 +126,14 @@ export default function Dashboard() {
             </TabsTrigger>
             <TabsTrigger 
               value="wallet" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm min-h-[44px] sm:min-h-0"
             >
               <Coins className="w-4 h-4 sm:mr-0" />
               <span>Wallet</span>
             </TabsTrigger>
             <TabsTrigger 
               value="milestones" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm min-h-[44px] sm:min-h-0"
             >
               <Trophy className="w-4 h-4 sm:mr-0" />
               <span className="sm:hidden">Goals</span>
@@ -141,7 +141,7 @@ export default function Dashboard() {
             </TabsTrigger>
             <TabsTrigger 
               value="uptime" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm"
+              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 px-2 sm:px-3 text-xs sm:text-sm min-h-[44px] sm:min-h-0"
             >
               <Activity className="w-4 h-4 sm:mr-0" />
               <span>Uptime</span>
@@ -183,46 +183,42 @@ export default function Dashboard() {
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+            <EnergySnapshot />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-              <EnergySnapshot />
               <WattWallet />
+              <ReferralSystem />
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6">
               <EnergyChart />
-              <div className="space-y-4 sm:space-y-6">
-                <ReferralSystem />
-                <div className="lg:col-span-2">
-                  <EnergyMap />
-                </div>
-              </div>
+              <EnergyMap />
             </div>
             {/* Mobile-only secondary navigation */}
-            <div className="sm:hidden grid grid-cols-2 gap-4 mt-8">
+            <div className="sm:hidden grid grid-cols-2 gap-3 mt-6">
               <Button
                 onClick={() => setActiveTab("alliances")}
                 variant="outline"
-                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 h-16 flex flex-col items-center justify-center"
+                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 min-h-[64px] flex flex-col items-center justify-center"
               >
                 <Users className="w-6 h-6 mb-1" />
-                Alliances
+                <span className="text-xs">Alliances</span>
               </Button>
               <Button
                 onClick={() => setActiveTab("governance")}
                 variant="outline"
-                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 h-16 flex flex-col items-center justify-center"
+                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 min-h-[64px] flex flex-col items-center justify-center"
               >
                 <Vote className="w-6 h-6 mb-1" />
-                Governance
+                <span className="text-xs">Governance</span>
               </Button>
             </div>
-            <div className="sm:hidden grid grid-cols-2 gap-4">
+            <div className="sm:hidden grid grid-cols-2 gap-3">
               <Button
                 onClick={() => setActiveTab("notifications")}
                 variant="outline"
-                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 h-16 flex flex-col items-center justify-center relative"
+                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 min-h-[64px] flex flex-col items-center justify-center relative"
               >
                 <Bell className="w-6 h-6 mb-1" />
-                Notifications
+                <span className="text-xs">Notifications</span>
                 {unreadNotifications > 0 && (
                   <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full flex items-center justify-center p-0">
                     {unreadNotifications}
@@ -232,10 +228,10 @@ export default function Dashboard() {
               <Button
                 onClick={() => setActiveTab("profile")}
                 variant="outline"
-                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 h-16 flex flex-col items-center justify-center"
+                className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10 min-h-[64px] flex flex-col items-center justify-center"
               >
                 <Settings className="w-6 h-6 mb-1" />
-                Profile
+                <span className="text-xs">Profile</span>
               </Button>
             </div>
           </TabsContent>

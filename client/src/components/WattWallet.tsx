@@ -11,9 +11,9 @@ export default function WattWallet() {
 
   if (isLoading) {
     return (
-      <Card className="bg-cyber-dark border-cyber-cyan/20 holographic animate-pulse">
-        <CardContent className="p-6">
-          <div className="h-64 bg-cyber-gray/20 rounded"></div>
+      <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm animate-pulse">
+        <CardContent className="p-4 sm:p-6">
+          <div className="h-48 sm:h-64 bg-gray-800/20 rounded"></div>
         </CardContent>
       </Card>
     );
@@ -31,37 +31,37 @@ export default function WattWallet() {
   const remaining = Math.max(nextMilestone - currentBalance, 0);
 
   return (
-    <Card className="bg-cyber-dark/80 border border-cyan-900/30 backdrop-blur-sm">
+    <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-light text-white">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <CardTitle className="text-lg sm:text-xl font-light text-white">
             WATT WALLET
           </CardTitle>
           <div className="flex items-center space-x-2">
-            <Coins className="w-6 h-6 text-cyan-400" />
-            <span className="text-2xl font-light text-cyan-400">
+            <Coins className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
+            <span className="text-xl sm:text-2xl font-light text-cyan-400">
               {walletData.wattBalance.toFixed(0)}
             </span>
           </div>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           <div className="flex justify-between items-center">
-            <span className="text-gray-400">Today's Earnings</span>
-            <span className="text-cyber-orange font-bold">
+            <span className="text-gray-400 text-sm sm:text-base">Today's Earnings</span>
+            <span className="text-orange-400 font-bold text-sm sm:text-base">
               +{walletData.todaysEarnings.toFixed(0)} WATT
             </span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-400">Lifetime Earnings</span>
-            <span className="text-cyber-orange font-bold">
+            <span className="text-gray-400 text-sm sm:text-base">Lifetime Earnings</span>
+            <span className="text-orange-400 font-bold text-sm sm:text-base">
               {walletData.lifetimeEarnings.toFixed(0)} WATT
             </span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-400">Current Rate</span>
-            <span className="text-cyber-orange font-bold">0.75 WATT/kW</span>
+            <span className="text-gray-400 text-sm sm:text-base">Current Rate</span>
+            <span className="text-orange-400 font-bold text-sm sm:text-base">0.75 WATT/kW</span>
           </div>
         </div>
 

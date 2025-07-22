@@ -23,13 +23,13 @@ export default function EnergyMap() {
   ];
 
   return (
-    <Card className="bg-cyber-dark border-cyber-cyan/20">
+    <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-bold glow-text text-cyber-cyan">
-            Energy Nodes Map
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <CardTitle className="text-lg sm:text-xl font-light text-white">
+            ENERGY NODES MAP
           </CardTitle>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 sm:space-x-2 overflow-x-auto">
             {filters.map((filter) => (
               <Button
                 key={filter.id}
@@ -38,8 +38,8 @@ export default function EnergyMap() {
                 size="sm"
                 className={
                   activeFilter === filter.id
-                    ? "bg-cyber-cyan/20 text-cyber-cyan border-cyber-cyan/50"
-                    : "border-cyber-gray/50 text-gray-400 hover:bg-cyber-gray/20"
+                    ? "bg-cyan-600/20 text-cyan-400 border-cyan-600/50 min-h-[44px] sm:min-h-0"
+                    : "border-gray-600/50 text-gray-400 hover:bg-gray-600/20 min-h-[44px] sm:min-h-0"
                 }
               >
                 {filter.label}
@@ -50,9 +50,9 @@ export default function EnergyMap() {
       </CardHeader>
       <CardContent>
         {/* Map Container */}
-        <div className="relative h-96 bg-cyber-gray/30 rounded-xl overflow-hidden">
+        <div className="relative h-64 sm:h-80 lg:h-96 bg-gray-800/30 rounded-xl overflow-hidden">
           {/* Background Image */}
-          <div className="absolute inset-0 bg-gradient-to-br from-cyber-dark to-cyber-gray/50 opacity-70"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800/50 opacity-70"></div>
           
           {/* Grid Pattern */}
           <div className="absolute inset-0 opacity-20">
@@ -89,7 +89,7 @@ export default function EnergyMap() {
                   />
                   {/* Inner node */}
                   <div
-                    className={`absolute w-3 h-3 ${nodeColor} rounded-full shadow-lg ${glowColor} animate-pulse transition-all hover:scale-150`}
+                    className={`absolute w-2 h-2 sm:w-3 sm:h-3 ${nodeColor} rounded-full shadow-lg ${glowColor} animate-pulse transition-all hover:scale-150`}
                     style={{
                       left: `${node.x}%`,
                       top: `${node.y}%`,
@@ -98,7 +98,7 @@ export default function EnergyMap() {
                   />
                   {/* Tooltip on hover */}
                   <div
-                    className="absolute opacity-0 group-hover:opacity-100 bg-gray-900 text-white text-xs px-2 py-1 rounded pointer-events-none transition-opacity"
+                    className="absolute opacity-0 group-hover:opacity-100 bg-gray-900 text-white text-xs px-1 sm:px-2 py-0.5 sm:py-1 rounded pointer-events-none transition-opacity z-10"
                     style={{
                       left: `${node.x}%`,
                       top: `${node.y}%`,
@@ -113,20 +113,20 @@ export default function EnergyMap() {
           </div>
           
           {/* Map Legend */}
-          <div className="absolute bottom-4 left-4 bg-gray-900/90 border border-cyan-900/30 p-3 rounded-lg backdrop-blur">
-            <h4 className="text-xs text-cyan-400 uppercase tracking-wider mb-2">NODE OUTPUT</h4>
+          <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 bg-gray-900/90 border border-cyan-900/30 p-2 sm:p-3 rounded-lg backdrop-blur">
+            <h4 className="text-xs text-cyan-400 uppercase tracking-wider mb-1 sm:mb-2">NODE OUTPUT</h4>
             <div className="space-y-1 text-xs">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-cyan-400 rounded-full shadow-lg shadow-cyan-400/50"></div>
-                <span className="text-gray-300">High Output (&gt;10kW)</span>
+              <div className="flex items-center space-x-1 sm:space-x-2">
+                <div className="w-2 h-2 sm:w-3 sm:h-3 bg-cyan-400 rounded-full shadow-lg shadow-cyan-400/50"></div>
+                <span className="text-gray-300 text-xs">High (&gt;10kW)</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-cyan-600 rounded-full shadow-lg shadow-cyan-600/50"></div>
-                <span className="text-gray-300">Medium Output (5-10kW)</span>
+              <div className="flex items-center space-x-1 sm:space-x-2">
+                <div className="w-2 h-2 sm:w-3 sm:h-3 bg-cyan-600 rounded-full shadow-lg shadow-cyan-600/50"></div>
+                <span className="text-gray-300 text-xs">Medium (5-10kW)</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-cyan-800 rounded-full shadow-lg shadow-cyan-800/50"></div>
-                <span className="text-gray-300">Low Output (&lt;5kW)</span>
+              <div className="flex items-center space-x-1 sm:space-x-2">
+                <div className="w-2 h-2 sm:w-3 sm:h-3 bg-cyan-800 rounded-full shadow-lg shadow-cyan-800/50"></div>
+                <span className="text-gray-300 text-xs">Low (&lt;5kW)</span>
               </div>
             </div>
           </div>

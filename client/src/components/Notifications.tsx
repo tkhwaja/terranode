@@ -83,12 +83,12 @@ export default function Notifications() {
   if (isLoading) {
     return (
       <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
-        <CardContent className="p-6">
-          <div className="animate-pulse space-y-4">
+        <CardContent className="p-4 sm:p-6">
+          <div className="animate-pulse space-y-3 sm:space-y-4">
             <div className="h-6 bg-gray-800/50 rounded w-1/3"></div>
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-16 bg-gray-800/50 rounded"></div>
+                <div key={i} className="h-14 sm:h-16 bg-gray-800/50 rounded"></div>
               ))}
             </div>
           </div>
@@ -103,20 +103,20 @@ export default function Notifications() {
   return (
     <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-light text-white flex items-center space-x-2">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <CardTitle className="text-lg sm:text-xl font-light text-white flex items-center space-x-2">
             <Bell className="w-5 h-5 text-cyan-400" />
             <span>NOTIFICATIONS</span>
           </CardTitle>
           {unreadCount > 0 && (
-            <Badge variant="outline" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
+            <Badge variant="outline" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 text-xs sm:text-sm">
               {unreadCount} new
             </Badge>
           )}
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {notificationList.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
               <BellOff className="w-12 h-12 mx-auto mb-4 text-gray-600" />

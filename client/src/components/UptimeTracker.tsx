@@ -14,12 +14,12 @@ export default function UptimeTracker() {
   if (isLoading) {
     return (
       <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
-        <CardContent className="p-6">
-          <div className="animate-pulse space-y-4">
+        <CardContent className="p-4 sm:p-6">
+          <div className="animate-pulse space-y-3 sm:space-y-4">
             <div className="h-6 bg-gray-800/50 rounded w-1/3"></div>
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-7 gap-2">
               {[...Array(7)].map((_, i) => (
-                <div key={i} className="h-20 bg-gray-800/50 rounded"></div>
+                <div key={i} className="h-16 sm:h-20 bg-gray-800/50 rounded"></div>
               ))}
             </div>
           </div>
@@ -68,11 +68,11 @@ export default function UptimeTracker() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Current Status */}
       <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-light text-white flex items-center space-x-2">
+          <CardTitle className="text-lg sm:text-xl font-light text-white flex items-center space-x-2">
             <Activity className="w-5 h-5 text-cyan-400" />
             <span>UPTIME TRACKER</span>
           </CardTitle>

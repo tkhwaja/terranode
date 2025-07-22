@@ -71,12 +71,12 @@ export default function Milestones() {
   if (milestonesLoading || userMilestonesLoading) {
     return (
       <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <div className="animate-pulse space-y-4">
             <div className="h-6 bg-gray-800/50 rounded w-1/3"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="h-32 bg-gray-800/50 rounded"></div>
+                <div key={i} className="h-28 sm:h-32 bg-gray-800/50 rounded"></div>
               ))}
             </div>
           </div>
@@ -111,28 +111,28 @@ export default function Milestones() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             <div className="text-center">
-              <div className="text-3xl font-light text-cyan-400 mb-2">
+              <div className="text-2xl sm:text-3xl font-light text-cyan-400 mb-2">
                 {completedMilestones.length}
               </div>
-              <p className="text-sm text-gray-400 uppercase tracking-wider">
+              <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">
                 Completed
               </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-light text-purple-400 mb-2">
+              <div className="text-2xl sm:text-3xl font-light text-purple-400 mb-2">
                 {availableMilestones.length}
               </div>
-              <p className="text-sm text-gray-400 uppercase tracking-wider">
+              <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">
                 Available
               </p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-light text-green-400 mb-2">
+              <div className="text-2xl sm:text-3xl font-light text-green-400 mb-2">
                 {allMilestones.length}
               </div>
-              <p className="text-sm text-gray-400 uppercase tracking-wider">
+              <p className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">
                 Total
               </p>
             </div>
@@ -148,7 +148,7 @@ export default function Milestones() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {availableMilestones.map((milestone: any) => {
               const userMilestone = userMilestoneMap.get(milestone.id);
               const progress = userMilestone?.progress || 0;
@@ -157,15 +157,15 @@ export default function Milestones() {
               return (
                 <div
                   key={milestone.id}
-                  className="relative p-4 bg-gray-800/30 rounded-lg border border-gray-700/50 hover:border-cyan-600/30 transition-colors"
+                  className="relative p-3 sm:p-4 bg-gray-800/30 rounded-lg border border-gray-700/50 hover:border-cyan-600/30 transition-colors"
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center space-x-3">
-                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${getMilestoneColor(milestone.type)} flex items-center justify-center text-white`}>
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-3">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${getMilestoneColor(milestone.type)} flex items-center justify-center text-white`}>
                         {getMilestoneIcon(milestone.type)}
                       </div>
-                      <div>
-                        <h4 className="font-medium text-white">{milestone.name}</h4>
+                      <div className="min-w-0 flex-1">
+                        <h4 className="font-medium text-white text-sm sm:text-base truncate">{milestone.name}</h4>
                         <Badge variant="outline" className="text-xs mt-1">
                           {milestone.type.toUpperCase()}
                         </Badge>
@@ -176,19 +176,19 @@ export default function Milestones() {
                         size="sm"
                         onClick={() => unlockMilestoneMutation.mutate(milestone.id)}
                         disabled={unlockMilestoneMutation.isPending}
-                        className="bg-cyan-600 hover:bg-cyan-700 text-white"
+                        className="bg-cyan-600 hover:bg-cyan-700 text-white min-h-[44px] sm:min-h-0 w-full sm:w-auto"
                       >
                         Unlock
                       </Button>
                     )}
                   </div>
                   
-                  <p className="text-sm text-gray-400 mb-3">
+                  <p className="text-xs sm:text-sm text-gray-400 mb-3">
                     {milestone.description}
                   </p>
                   
                   <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
+                    <div className="flex justify-between text-xs sm:text-sm">
                       <span className="text-gray-400">Progress</span>
                       <span className="text-white">{progress.toFixed(1)}%</span>
                     </div>
@@ -214,14 +214,14 @@ export default function Milestones() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {completedMilestones.map((milestone: any) => {
                 const userMilestone = userMilestoneMap.get(milestone.id);
 
                 return (
                   <div
                     key={milestone.id}
-                    className="relative p-4 bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-lg border border-green-500/20"
+                    className="relative p-3 sm:p-4 bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-lg border border-green-500/20"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center space-x-3">

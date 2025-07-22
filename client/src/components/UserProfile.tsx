@@ -67,23 +67,23 @@ export default function UserProfile() {
       {/* Profile Header */}
       <Card className="bg-gray-900/80 border border-cyan-900/30 backdrop-blur-sm">
         <CardHeader>
-          <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center mx-auto sm:mx-0">
               {user?.profileImageUrl ? (
                 <img 
                   src={user.profileImageUrl} 
-                  alt="Profile" 
+                  alt="Profile"
                   className="w-full h-full rounded-full object-cover" 
                 />
               ) : (
                 <User className="w-8 h-8 text-white" />
               )}
             </div>
-            <div>
-              <h2 className="text-2xl font-light text-white">
+            <div className="text-center sm:text-left">
+              <h2 className="text-xl sm:text-2xl font-light text-white">
                 {user?.firstName || user?.email || 'User'}
               </h2>
-              <p className="text-cyan-400 text-sm uppercase tracking-wider">
+              <p className="text-cyan-400 text-xs sm:text-sm uppercase tracking-wider">
                 TERRANODE OPERATOR
               </p>
             </div>
@@ -100,9 +100,9 @@ export default function UserProfile() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             <div>
-              <Label htmlFor="location" className="text-gray-300 text-sm uppercase tracking-wider">
+              <Label htmlFor="location" className="text-gray-300 text-xs sm:text-sm uppercase tracking-wider">
                 Location
               </Label>
               <div className="relative">
@@ -113,7 +113,7 @@ export default function UserProfile() {
                   placeholder="Enter your location"
                   value={formData.location}
                   onChange={(e) => handleInputChange("location", e.target.value)}
-                  className="pl-10 bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-400"
+                  className="pl-10 bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-400 min-h-[44px]"
                 />
               </div>
             </div>

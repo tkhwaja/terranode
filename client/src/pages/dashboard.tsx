@@ -127,8 +127,8 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          {/* Mobile/Tablet Navigation - Hamburger Menu */}
-          <div className="mobile-nav mb-4">
+          {/* Navigation - Hamburger Menu for all screen sizes */}
+          <div className="mb-4">
             <div className="flex items-center justify-between bg-gray-900/50 border border-cyan-900/30 rounded-lg p-3">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
@@ -206,112 +206,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Desktop Navigation (lg+ screens) - Full Horizontal Tabs */}
-          <div className="desktop-nav mb-4">
-            <div className="grid grid-cols-8 bg-gray-900/50 border border-cyan-900/30 rounded-lg gap-1 p-1">
-              <Button
-                variant={activeTab === "overview" ? "secondary" : "ghost"}
-                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
-                  activeTab === "overview"
-                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
-                }`}
-                onClick={() => setActiveTab("overview")}
-              >
-                <Sun className="w-4 h-4" />
-                <span>Overview</span>
-              </Button>
-              <Button
-                variant={activeTab === "wallet" ? "secondary" : "ghost"}
-                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
-                  activeTab === "wallet"
-                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
-                }`}
-                onClick={() => setActiveTab("wallet")}
-              >
-                <Coins className="w-4 h-4" />
-                <span>Wallet</span>
-              </Button>
-              <Button
-                variant={activeTab === "milestones" ? "secondary" : "ghost"}
-                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
-                  activeTab === "milestones"
-                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
-                }`}
-                onClick={() => setActiveTab("milestones")}
-              >
-                <Trophy className="w-4 h-4" />
-                <span>Milestones</span>
-              </Button>
-              <Button
-                variant={activeTab === "uptime" ? "secondary" : "ghost"}
-                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
-                  activeTab === "uptime"
-                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
-                }`}
-                onClick={() => setActiveTab("uptime")}
-              >
-                <Activity className="w-4 h-4" />
-                <span>Uptime</span>
-              </Button>
-              <Button
-                variant={activeTab === "alliances" ? "secondary" : "ghost"}
-                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
-                  activeTab === "alliances"
-                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
-                }`}
-                onClick={() => setActiveTab("alliances")}
-              >
-                <Users className="w-4 h-4" />
-                <span>Alliances</span>
-              </Button>
-              <Button
-                variant={activeTab === "governance" ? "secondary" : "ghost"}
-                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
-                  activeTab === "governance"
-                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
-                }`}
-                onClick={() => setActiveTab("governance")}
-              >
-                <Vote className="w-4 h-4" />
-                <span>Governance</span>
-              </Button>
-              <Button
-                variant={activeTab === "notifications" ? "secondary" : "ghost"}
-                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium relative ${
-                  activeTab === "notifications"
-                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
-                }`}
-                onClick={() => setActiveTab("notifications")}
-              >
-                <Bell className="w-4 h-4" />
-                <span>Notifications</span>
-                {unreadNotifications > 0 && (
-                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full flex items-center justify-center p-0">
-                    {unreadNotifications}
-                  </Badge>
-                )}
-              </Button>
-              <Button
-                variant={activeTab === "profile" ? "secondary" : "ghost"}
-                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
-                  activeTab === "profile"
-                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
-                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
-                }`}
-                onClick={() => setActiveTab("profile")}
-              >
-                <Settings className="w-4 h-4" />
-                <span>Profile</span>
-              </Button>
-            </div>
-          </div>
+
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-4 sm:space-y-6">

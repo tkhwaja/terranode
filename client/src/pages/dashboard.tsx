@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { Sun, User, LogOut, Bell, Settings, Trophy, Users, Coins, Activity, Vote, Clock, MapPin, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// Removed Tabs import - using simple state-based navigation instead
 import { Badge } from "@/components/ui/badge";
 import {
   Sheet,
@@ -126,7 +126,7 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <div className="w-full">
           {/* Navigation - Hamburger Menu for all screen sizes */}
           <div className="mb-4">
             <div className="flex items-center justify-between bg-gray-900/50 border border-cyan-900/30 rounded-lg p-3">
@@ -209,7 +209,8 @@ export default function Dashboard() {
 
 
           {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-4 sm:space-y-6">
+          {activeTab === "overview" && (
+            <div className="space-y-4 sm:space-y-6">
             <EnergySnapshot />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <WattWallet />
@@ -248,46 +249,61 @@ export default function Dashboard() {
               </div>
             </div>
 
-          </TabsContent>
+            </div>
+          )}
 
           {/* Wallet Tab */}
-          <TabsContent value="wallet" className="space-y-4 sm:space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-              <WattWallet />
-              <TokenLedger />
+          {activeTab === "wallet" && (
+            <div className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                <WattWallet />
+                <TokenLedger />
+              </div>
             </div>
-          </TabsContent>
+          )}
 
           {/* Milestones Tab */}
-          <TabsContent value="milestones" className="space-y-4 sm:space-y-6">
-            <Milestones />
-          </TabsContent>
+          {activeTab === "milestones" && (
+            <div className="space-y-4 sm:space-y-6">
+              <Milestones />
+            </div>
+          )}
 
           {/* Uptime Tab */}
-          <TabsContent value="uptime" className="space-y-4 sm:space-y-6">
-            <UptimeTracker />
-          </TabsContent>
+          {activeTab === "uptime" && (
+            <div className="space-y-4 sm:space-y-6">
+              <UptimeTracker />
+            </div>
+          )}
 
           {/* Alliances Tab */}
-          <TabsContent value="alliances" className="space-y-4 sm:space-y-6">
-            <SolarAlliances />
-          </TabsContent>
+          {activeTab === "alliances" && (
+            <div className="space-y-4 sm:space-y-6">
+              <SolarAlliances />
+            </div>
+          )}
 
           {/* Governance Tab */}
-          <TabsContent value="governance" className="space-y-4 sm:space-y-6">
-            <AllianceGovernance allianceId={1} isLeader={true} />
-          </TabsContent>
+          {activeTab === "governance" && (
+            <div className="space-y-4 sm:space-y-6">
+              <AllianceGovernance allianceId={1} isLeader={true} />
+            </div>
+          )}
 
           {/* Notifications Tab */}
-          <TabsContent value="notifications" className="space-y-4 sm:space-y-6">
-            <Notifications />
-          </TabsContent>
+          {activeTab === "notifications" && (
+            <div className="space-y-4 sm:space-y-6">
+              <Notifications />
+            </div>
+          )}
 
           {/* Profile Tab */}
-          <TabsContent value="profile" className="space-y-4 sm:space-y-6">
-            <UserProfile />
-          </TabsContent>
-        </Tabs>
+          {activeTab === "profile" && (
+            <div className="space-y-4 sm:space-y-6">
+              <UserProfile />
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { 
@@ -16,6 +17,7 @@ import {
 } from "@shared/schema";
 import { z } from "zod";
 import { dataGenerator } from "./services/dataGenerator";
+import { testTokenUpdate } from "./testTokenUpdate";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
@@ -196,6 +198,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error generating demo data:", error);
       res.status(500).json({ message: "Failed to generate demo data" });
+    }
+  });
+
+  // Test token update route
+  app.post('/api/test/token-update', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const result = await testTokenUpdate(userId);
+      res.json(result);
+    } catch (error) {
+      console.error("Error testing token update:", error);
+      res.status(500).json({ message: "Failed to test token update" });
     }
   });
 
@@ -396,5 +410,71 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
+  
+  // WebSocket server for real-time WATT token updates
+  const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
+  
+  // Store user WebSocket connections
+  const userConnections = new Map<string, WebSocket>();
+  
+  wss.on('connection', (ws, req) => {
+    console.log('WebSocket connection established');
+    
+    ws.on('message', (data) => {
+      try {
+        const message = JSON.parse(data.toString());
+        if (message.type === 'subscribe' && message.userId) {
+          userConnections.set(message.userId, ws);
+          console.log(`User ${message.userId} subscribed to WATT ticker updates`);
+          
+          // Send current balance immediately
+          storage.getUserWallet(message.userId).then(wallet => {
+            ws.send(JSON.stringify({
+              type: 'balance_update',
+              balance: wallet.wattBalance,
+              timestamp: new Date().toISOString()
+            }));
+          }).catch(err => {
+            console.error('Error fetching initial wallet balance:', err);
+          });
+        }
+      } catch (error) {
+        console.error('WebSocket message error:', error);
+      }
+    });
+    
+    ws.on('close', () => {
+      // Remove user connection when they disconnect
+      for (const [userId, connection] of userConnections.entries()) {
+        if (connection === ws) {
+          userConnections.delete(userId);
+          console.log(`User ${userId} disconnected from WATT ticker`);
+          break;
+        }
+      }
+    });
+    
+    ws.on('error', (error) => {
+      console.error('WebSocket error:', error);
+    });
+  });
+  
+  // Function to broadcast balance updates to specific user
+  const broadcastBalanceUpdate = (userId: string, newBalance: number, earned: number = 0) => {
+    const connection = userConnections.get(userId);
+    if (connection && connection.readyState === WebSocket.OPEN) {
+      connection.send(JSON.stringify({
+        type: 'balance_update',
+        balance: newBalance,
+        earned: earned,
+        timestamp: new Date().toISOString()
+      }));
+      console.log(`Broadcasted balance update to user ${userId}: ${newBalance} WATT`);
+    }
+  };
+  
+  // Make broadcastBalanceUpdate available globally
+  (global as any).broadcastBalanceUpdate = broadcastBalanceUpdate;
+  
   return httpServer;
 }

@@ -18,6 +18,7 @@ import Milestones from "@/components/Milestones";
 import UptimeTracker from "@/components/UptimeTracker";
 import Notifications from "@/components/Notifications";
 import AllianceGovernance from "@/components/AllianceGovernance";
+import WattTicker from "@/components/WattTicker";
 
 export default function Dashboard() {
   const { toast } = useToast();
@@ -57,6 +58,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
+      {/* Live WATT Ticker */}
+      <WattTicker />
+      
       {/* Navigation Header */}
       <header className="bg-gray-900/50 border-b border-cyan-900/30 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-3">
@@ -191,6 +195,34 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 gap-4 sm:gap-6">
               <EnergyChart />
               <EnergyMap />
+            </div>
+            
+            {/* Test WATT Ticker Button - for testing live updates */}
+            <div className="bg-gray-900/50 border border-cyan-900/30 rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-medium text-cyan-400">Test Live WATT Ticker</h3>
+                  <p className="text-sm text-gray-400 mt-1">Click to simulate earning WATT tokens and test the live ticker</p>
+                </div>
+                <Button
+                  onClick={async () => {
+                    try {
+                      const response = await fetch('/api/test/token-update', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                      });
+                      const result = await response.json();
+                      console.log('Test token update result:', result);
+                    } catch (error) {
+                      console.error('Test failed:', error);
+                    }
+                  }}
+                  className="bg-cyan-600 hover:bg-cyan-700 text-white"
+                >
+                  <Coins className="w-4 h-4 mr-2" />
+                  Test Earn WATT
+                </Button>
+              </div>
             </div>
             {/* Mobile-only secondary navigation */}
             <div className="sm:hidden grid grid-cols-2 gap-3 mt-6">

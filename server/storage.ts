@@ -89,6 +89,10 @@ export interface IStorage {
   generateReferralCode(): Promise<string>;
   getReferralStats(userId: string): Promise<{ totalReferrals: number; referralBonus: number }>;
   getReferralLeaderboard(limit?: number): Promise<Array<{ userId: string; referralCount: number; firstName?: string; lastName?: string }>>;
+  
+  // Additional wallet operations
+  updateUserTokenBalance(userId: string, tokensEarned: number): Promise<void>;
+  createSurplusLog(data: { userId: string; amount: number; wattTokensEarned: number }): Promise<any>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -491,6 +495,48 @@ export class DatabaseStorage implements IStorage {
       .from(allianceVotes)
       .where(eq(allianceVotes.proposalId, proposalId))
       .orderBy(desc(allianceVotes.createdAt));
+  }
+
+  // Additional wallet operations for WATT ticker
+  async updateUserTokenBalance(userId: string, tokensEarned: number): Promise<void> {
+    // First ensure user has a wallet
+    const existingWallet = await this.getUserWallet(userId);
+    
+    if (!existingWallet) {
+      // Create wallet if it doesn't exist
+      await db.insert(userWallets).values({
+        userId,
+        wattBalance: tokensEarned,
+        lifetimeEarnings: tokensEarned,
+        todaysEarnings: tokensEarned,
+      });
+    } else {
+      // Update existing wallet
+      await db
+        .update(userWallets)
+        .set({
+          wattBalance: sql`${userWallets.wattBalance} + ${tokensEarned}`,
+          lifetimeEarnings: sql`${userWallets.lifetimeEarnings} + ${tokensEarned}`,
+          todaysEarnings: sql`${userWallets.todaysEarnings} + ${tokensEarned}`,
+          lastUpdated: new Date(),
+        })
+        .where(eq(userWallets.userId, userId));
+    }
+  }
+
+  async createSurplusLog(data: { userId: string; amount: number; wattTokensEarned: number }): Promise<any> {
+    // Create a token ledger entry for the surplus log
+    const [entry] = await db
+      .insert(tokenLedger)
+      .values({
+        userId: data.userId,
+        transactionType: 'surplus_sale',
+        amount: data.wattTokensEarned,
+        description: `Surplus energy sale: ${data.amount.toFixed(2)} kWh`,
+      })
+      .returning();
+    
+    return entry;
   }
 }
 

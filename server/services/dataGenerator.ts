@@ -66,6 +66,23 @@ export class DataGenerator {
       
       try {
         await storage.createEnergyReading(reading);
+        
+        // If there's surplus energy, add to token balance and broadcast update
+        if (reading.wattTokensEarned > 0) {
+          const currentWallet = await storage.getUserWallet(userId);
+          const newBalance = (currentWallet?.wattBalance || 0) + reading.wattTokensEarned;
+          
+          // Update token balance
+          await storage.updateUserTokenBalance(userId, reading.wattTokensEarned);
+          
+          // Broadcast balance update via WebSocket if available
+          const broadcastBalanceUpdate = (global as any).broadcastBalanceUpdate;
+          if (broadcastBalanceUpdate) {
+            broadcastBalanceUpdate(userId, newBalance, reading.wattTokensEarned);
+          }
+          
+          console.log(`Generated ${reading.wattTokensEarned.toFixed(2)} WATT tokens for user ${userId}, new balance: ${newBalance.toFixed(2)}`);
+        }
       } catch (error) {
         console.error("Error creating periodic energy reading:", error);
       }

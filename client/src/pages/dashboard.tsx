@@ -207,69 +207,111 @@ export default function Dashboard() {
           </div>
 
           {/* Desktop Navigation (lg+ screens) - Full Horizontal Tabs */}
-          <TabsList className="hidden lg:grid w-full grid-cols-8 bg-gray-900/50 border border-cyan-900/30 h-auto gap-1 p-1 mb-4">
-            <TabsTrigger 
-              value="overview" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
-            >
-              <Sun className="w-4 h-4" />
-              <span>Overview</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="wallet" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
-            >
-              <Coins className="w-4 h-4" />
-              <span>Wallet</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="milestones" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
-            >
-              <Trophy className="w-4 h-4" />
-              <span>Milestones</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="uptime" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
-            >
-              <Activity className="w-4 h-4" />
-              <span>Uptime</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="alliances" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
-            >
-              <Users className="w-4 h-4" />
-              <span>Alliances</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="governance" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
-            >
-              <Vote className="w-4 h-4" />
-              <span>Governance</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="notifications" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium relative"
-            >
-              <Bell className="w-4 h-4" />
-              <span>Notifications</span>
-              {unreadNotifications > 0 && (
-                <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full flex items-center justify-center p-0">
-                  {unreadNotifications}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger 
-              value="profile" 
-              className="data-[state=active]:bg-cyan-600/20 data-[state=active]:text-cyan-400 text-gray-300 flex items-center gap-2 py-3 px-4 text-sm font-medium"
-            >
-              <Settings className="w-4 h-4" />
-              <span>Profile</span>
-            </TabsTrigger>
-          </TabsList>
+          <div className="hidden lg:block mb-4">
+            <div className="grid grid-cols-8 bg-gray-900/50 border border-cyan-900/30 rounded-lg gap-1 p-1">
+              <Button
+                variant={activeTab === "overview" ? "secondary" : "ghost"}
+                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
+                  activeTab === "overview"
+                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
+                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
+                }`}
+                onClick={() => setActiveTab("overview")}
+              >
+                <Sun className="w-4 h-4" />
+                <span>Overview</span>
+              </Button>
+              <Button
+                variant={activeTab === "wallet" ? "secondary" : "ghost"}
+                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
+                  activeTab === "wallet"
+                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
+                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
+                }`}
+                onClick={() => setActiveTab("wallet")}
+              >
+                <Coins className="w-4 h-4" />
+                <span>Wallet</span>
+              </Button>
+              <Button
+                variant={activeTab === "milestones" ? "secondary" : "ghost"}
+                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
+                  activeTab === "milestones"
+                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
+                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
+                }`}
+                onClick={() => setActiveTab("milestones")}
+              >
+                <Trophy className="w-4 h-4" />
+                <span>Milestones</span>
+              </Button>
+              <Button
+                variant={activeTab === "uptime" ? "secondary" : "ghost"}
+                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
+                  activeTab === "uptime"
+                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
+                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
+                }`}
+                onClick={() => setActiveTab("uptime")}
+              >
+                <Activity className="w-4 h-4" />
+                <span>Uptime</span>
+              </Button>
+              <Button
+                variant={activeTab === "alliances" ? "secondary" : "ghost"}
+                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
+                  activeTab === "alliances"
+                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
+                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
+                }`}
+                onClick={() => setActiveTab("alliances")}
+              >
+                <Users className="w-4 h-4" />
+                <span>Alliances</span>
+              </Button>
+              <Button
+                variant={activeTab === "governance" ? "secondary" : "ghost"}
+                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
+                  activeTab === "governance"
+                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
+                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
+                }`}
+                onClick={() => setActiveTab("governance")}
+              >
+                <Vote className="w-4 h-4" />
+                <span>Governance</span>
+              </Button>
+              <Button
+                variant={activeTab === "notifications" ? "secondary" : "ghost"}
+                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium relative ${
+                  activeTab === "notifications"
+                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
+                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
+                }`}
+                onClick={() => setActiveTab("notifications")}
+              >
+                <Bell className="w-4 h-4" />
+                <span>Notifications</span>
+                {unreadNotifications > 0 && (
+                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-5 w-5 rounded-full flex items-center justify-center p-0">
+                    {unreadNotifications}
+                  </Badge>
+                )}
+              </Button>
+              <Button
+                variant={activeTab === "profile" ? "secondary" : "ghost"}
+                className={`flex items-center gap-2 py-3 px-4 text-sm font-medium ${
+                  activeTab === "profile"
+                    ? "bg-cyan-600/20 text-cyan-400 border border-cyan-600/50"
+                    : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-600/10"
+                }`}
+                onClick={() => setActiveTab("profile")}
+              >
+                <Settings className="w-4 h-4" />
+                <span>Profile</span>
+              </Button>
+            </div>
+          </div>
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-4 sm:space-y-6">

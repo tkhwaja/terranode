@@ -18,13 +18,16 @@ import {
 import { z } from "zod";
 import { dataGenerator } from "./services/dataGenerator";
 import { testTokenUpdate } from "./testTokenUpdate";
+import { demoSeeder } from "./services/demoSeeder";
+import { autoSeeder } from "./services/autoSeeder";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   await setupAuth(app);
 
-  // Start data generator
+  // Start data generator and auto seeder
   await dataGenerator.start();
+  autoSeeder.start();
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
@@ -32,9 +35,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.claims.sub;
       const user = await storage.getUser(userId);
       
-      // Add user to data generation if not already added
+      // Add user to data generation and auto seeder if not already added
       if (user) {
         await dataGenerator.addUser(userId);
+        autoSeeder.addUser(userId);
       }
       
       res.json(user);
@@ -198,6 +202,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error generating demo data:", error);
       res.status(500).json({ message: "Failed to generate demo data" });
+    }
+  });
+
+  // Demo Data Seeder route
+  app.post('/api/seed-demo-data', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { days = 7, hoursPerDay = 24 } = req.body;
+      
+      const result = await demoSeeder.seedDemoData({
+        userId,
+        days: Math.min(days, 30), // Limit to 30 days max
+        hoursPerDay: Math.min(hoursPerDay, 24) // Limit to 24 hours max
+      });
+      
+      // Broadcast updated balance via WebSocket
+      const userWallet = await storage.getUserWallet(userId);
+      if (userWallet && userConnections.has(userId)) {
+        const userWs = userConnections.get(userId);
+        if (userWs && userWs.readyState === WebSocket.OPEN) {
+          userWs.send(JSON.stringify({
+            type: 'balance_update',
+            balance: userWallet.wattBalance,
+            earned: result.totalTokensEarned,
+            timestamp: new Date().toISOString()
+          }));
+        }
+      }
+      
+      res.json({
+        message: "Demo data seeded successfully",
+        ...result
+      });
+    } catch (error) {
+      console.error("Error seeding demo data:", error);
+      res.status(500).json({ message: "Failed to seed demo data" });
+    }
+  });
+
+  // Auto Seeder control routes
+  app.get('/api/auto-seeder/status', isAuthenticated, async (req: any, res) => {
+    try {
+      const stats = autoSeeder.getStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Error getting auto seeder status:", error);
+      res.status(500).json({ message: "Failed to get auto seeder status" });
+    }
+  });
+
+  app.post('/api/auto-seeder/toggle', isAuthenticated, async (req: any, res) => {
+    try {
+      const { enabled } = req.body;
+      autoSeeder.updateConfig({ enabled });
+      const stats = autoSeeder.getStats();
+      res.json({ message: enabled ? "Auto seeder enabled" : "Auto seeder disabled", stats });
+    } catch (error) {
+      console.error("Error toggling auto seeder:", error);
+      res.status(500).json({ message: "Failed to toggle auto seeder" });
     }
   });
 

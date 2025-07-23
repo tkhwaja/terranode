@@ -224,31 +224,61 @@ export default function Dashboard() {
               <EnergyMap />
             </div>
             
-            {/* Test WATT Ticker Button - for testing live updates */}
+            {/* Demo Data Seeder - for presentations and demos */}
             <div className="bg-gray-900/50 border border-cyan-900/30 rounded-lg p-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-lg font-medium text-cyan-400">Test Live WATT Ticker</h3>
-                  <p className="text-sm text-gray-400 mt-1">Click to simulate earning WATT tokens and test the live ticker</p>
+                  <h3 className="text-lg font-medium text-cyan-400">Demo Data Seeder</h3>
+                  <p className="text-sm text-gray-400 mt-1">Generate realistic energy and token data for the last 7 days</p>
                 </div>
-                <Button
-                  onClick={async () => {
-                    try {
-                      const response = await fetch('/api/test/token-update', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
-                      });
-                      const result = await response.json();
-                      console.log('Test token update result:', result);
-                    } catch (error) {
-                      console.error('Test failed:', error);
-                    }
-                  }}
-                  className="bg-cyan-600 hover:bg-cyan-700 text-white"
-                >
-                  <Coins className="w-4 h-4 mr-2" />
-                  Test Earn WATT
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/seed-demo-data', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ days: 7, hoursPerDay: 24 })
+                        });
+                        const result = await response.json();
+                        console.log('Demo data seeded:', result);
+                        toast({
+                          title: "Demo Data Generated",
+                          description: `Created ${result.energyRecords} energy readings and earned ${result.totalTokensEarned} WATT tokens`,
+                        });
+                      } catch (error) {
+                        console.error('Seeding failed:', error);
+                        toast({
+                          title: "Error",
+                          description: "Failed to generate demo data",
+                          variant: "destructive",
+                        });
+                      }
+                    }}
+                    className="bg-cyan-600 hover:bg-cyan-700 text-white"
+                  >
+                    <Coins className="w-4 h-4 mr-2" />
+                    Seed Demo Data
+                  </Button>
+                  <Button
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/test/token-update', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' }
+                        });
+                        const result = await response.json();
+                        console.log('Test token update result:', result);
+                      } catch (error) {
+                        console.error('Test failed:', error);
+                      }
+                    }}
+                    variant="outline"
+                    className="border-cyan-600 text-cyan-400 hover:bg-cyan-600/10"
+                  >
+                    Test Ticker
+                  </Button>
+                </div>
               </div>
             </div>
 

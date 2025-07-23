@@ -105,14 +105,14 @@ export default function Dashboard() {
               
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center">
-                  {user && user.profileImageUrl ? (
-                    <img src={user.profileImageUrl} alt="Profile" className="w-full h-full rounded-full object-cover" />
+                  {user && (user as any).profileImageUrl ? (
+                    <img src={(user as any).profileImageUrl} alt="Profile" className="w-full h-full rounded-full object-cover" />
                   ) : (
                     <User className="w-4 h-4 text-white" />
                   )}
                 </div>
                 <span className="text-sm font-medium hidden sm:inline">
-                  {user && user.firstName ? user.firstName : user && user.email ? user.email : 'User'}
+                  {user && (user as any).firstName ? (user as any).firstName : user && (user as any).email ? (user as any).email : 'User'}
                 </span>
               </div>
               <Button 

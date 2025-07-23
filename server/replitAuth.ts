@@ -128,6 +128,36 @@ export async function setupAuth(app: Express) {
 }
 
 export const isAuthenticated: RequestHandler = async (req, res, next) => {
+  // Development bypass for localhost testing
+  if (process.env.NODE_ENV === 'development' && req.hostname === 'localhost') {
+    // Create a mock user session for development
+    (req as any).user = {
+      claims: {
+        sub: 'dev-user-123',
+        email: 'developer@test.com',
+        first_name: 'Dev',
+        last_name: 'User',
+        profile_image_url: 'https://via.placeholder.com/150'
+      },
+      expires_at: Math.floor(Date.now() / 1000) + 3600 // 1 hour from now
+    };
+    
+    // Ensure the dev user exists in storage
+    try {
+      await storage.upsertUser({
+        id: 'dev-user-123',
+        email: 'developer@test.com',
+        firstName: 'Dev',
+        lastName: 'User',
+        profileImageUrl: 'https://via.placeholder.com/150'
+      });
+    } catch (error) {
+      console.log('Dev user upsert note:', error);
+    }
+    
+    return next();
+  }
+
   const user = req.user as any;
 
   if (!req.isAuthenticated() || !user.expires_at) {

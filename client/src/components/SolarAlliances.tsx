@@ -63,7 +63,7 @@ export default function SolarAlliances() {
   });
 
   const isUserInAlliance = (allianceId: number) => {
-    return userAlliances?.some((alliance: any) => alliance.id === allianceId);
+    return Array.isArray(userAlliances) && userAlliances.some((alliance: any) => alliance.id === allianceId);
   };
 
   const handleCreateAlliance = () => {
@@ -91,7 +91,7 @@ export default function SolarAlliances() {
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* User's Current Alliances */}
-          {userAlliances?.map((alliance: any) => (
+          {Array.isArray(userAlliances) && userAlliances.map((alliance: any) => (
             <Card key={alliance.id} className="bg-gray-800/30 border border-cyan-900/30">
               <CardHeader className="pb-3">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -121,7 +121,7 @@ export default function SolarAlliances() {
           ))}
 
           {/* Available Alliances to Join */}
-          {alliances?.filter((alliance: any) => !isUserInAlliance(alliance.id)).slice(0, 2).map((alliance: any) => (
+          {Array.isArray(alliances) && alliances.filter((alliance: any) => !isUserInAlliance(alliance.id)).slice(0, 2).map((alliance: any) => (
             <Card key={alliance.id} className="bg-gray-800/30 border border-purple-900/30">
               <CardHeader className="pb-3">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">

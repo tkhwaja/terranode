@@ -66,7 +66,7 @@ export default function WattTicker() {
 
   // Connect to WebSocket
   const connectWebSocket = () => {
-    if (!user || !user.id) return;
+    if (!user) return;
 
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const wsUrl = `${protocol}//${window.location.host}/ws`;
@@ -153,7 +153,7 @@ export default function WattTicker() {
   };
 
   useEffect(() => {
-    if (!user || !user.id) return;
+    if (!user) return;
 
     // Try WebSocket first, fallback to polling
     connectWebSocket();
@@ -171,32 +171,32 @@ export default function WattTicker() {
       }
       stopPolling();
     };
-  }, [user?.id]);
+  }, [user]);
 
   if (!user) return null;
 
   return (
-    <div className="fixed top-4 left-1/2 transform -translate-x-1/2 sm:left-auto sm:right-4 sm:transform-none z-50">
-      <div className="bg-gray-900/95 border border-cyan-900/50 backdrop-blur-sm rounded-lg px-3 sm:px-4 py-2 shadow-lg">
-        <div className="flex items-center space-x-2">
-          <Coins className={`w-4 h-4 text-cyan-400 ${isAnimating ? 'animate-spin' : ''}`} />
+    <div className="fixed top-20 right-4 z-40 hidden sm:block">
+      <div className="bg-gray-900 border border-cyan-500/50 rounded-lg px-4 py-3 shadow-xl min-w-[140px]">
+        <div className="flex items-center justify-center space-x-2">
+          <Coins className={`w-5 h-5 text-cyan-400 ${isAnimating ? 'animate-spin' : ''}`} />
           <div className="flex items-center space-x-1">
-            <span className="text-cyan-400 font-mono text-sm sm:text-base">
+            <span className="text-cyan-400 font-mono text-lg font-bold">
               {balance.toFixed(0)}
             </span>
-            <span className="text-cyan-400/70 text-xs sm:text-sm uppercase tracking-wider">
+            <span className="text-cyan-400/80 text-sm uppercase tracking-wider font-medium">
               WATT
             </span>
           </div>
           {isAnimating && (
-            <TrendingUp className="w-3 h-3 text-green-400 animate-pulse" />
+            <TrendingUp className="w-4 h-4 text-green-400 animate-pulse" />
           )}
         </div>
         
         {/* Earned notification badge */}
         {showEarnedBadge && (
-          <div className="absolute -top-2 -right-2 animate-bounce">
-            <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs px-2 py-1">
+          <div className="absolute -top-3 -right-3 animate-bounce">
+            <Badge className="bg-green-500 text-white border-green-400 text-xs px-2 py-1 font-semibold">
               +{earnedAmount.toFixed(1)} WATT
             </Badge>
           </div>

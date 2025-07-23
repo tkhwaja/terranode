@@ -13,13 +13,17 @@ import {
   insertUptimeTrackerSchema,
   insertNotificationSchema,
   insertAllianceProposalSchema,
-  insertAllianceVoteSchema
+  insertAllianceVoteSchema,
+  insertDailyMissionSchema,
+  dailyMissions
 } from "@shared/schema";
 import { z } from "zod";
 import { dataGenerator } from "./services/dataGenerator";
 import { testTokenUpdate } from "./testTokenUpdate";
 import { demoSeeder } from "./services/demoSeeder";
 import { autoSeeder } from "./services/autoSeeder";
+import { db } from "./db";
+import { eq, and, gte } from "drizzle-orm";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
@@ -329,6 +333,130 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching alliance pulse:', error);
       res.status(500).json({ message: 'Failed to fetch alliance pulse data' });
+    }
+  });
+
+  // Daily Mission endpoint - gets or assigns today's mission for user
+  app.get('/api/daily-mission', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      
+      // Check if user already has a mission for today
+      const [existingMission] = await db
+        .select()
+        .from(dailyMissions)
+        .where(
+          and(
+            eq(dailyMissions.userId, userId),
+            gte(dailyMissions.dateAssigned, new Date(today))
+          )
+        )
+        .limit(1);
+
+      if (existingMission) {
+        // Update progress based on mission type
+        let updatedMission = existingMission;
+        
+        if (existingMission.status === 'incomplete') {
+          let currentProgress = 0;
+          
+          // Calculate current progress based on mission type
+          switch (existingMission.missionType) {
+            case 'generate_energy':
+              const energyReadings = await storage.getUserEnergyReadings(userId, 24); // Last 24 hours
+              currentProgress = energyReadings.reduce((sum, reading) => sum + reading.solarGenerated, 0);
+              break;
+              
+            case 'export_surplus':
+              const surplusReadings = await storage.getUserEnergyReadings(userId, 24);
+              currentProgress = surplusReadings.reduce((sum, reading) => sum + reading.surplusExported, 0);
+              break;
+              
+            case 'stay_uptime':
+              // Simplified uptime check - assume 100% if user is online
+              currentProgress = 100;
+              break;
+              
+            case 'invite_friend':
+              // Check referrals created today
+              const stats = await storage.getReferralStats(userId);
+              // For demo purposes, use total referrals (in real app, filter by date)
+              currentProgress = stats.totalReferrals;
+              break;
+          }
+          
+          // Update mission progress
+          const isComplete = currentProgress >= existingMission.targetValue;
+          const [updated] = await db
+            .update(dailyMissions)
+            .set({
+              currentValue: currentProgress,
+              status: isComplete ? 'complete' : 'incomplete',
+              completedAt: isComplete ? new Date() : null
+            })
+            .where(eq(dailyMissions.id, existingMission.id))
+            .returning();
+            
+          updatedMission = updated;
+        }
+        
+        return res.json(updatedMission);
+      }
+
+      // Assign a new random mission for today
+      const missionTypes = [
+        {
+          type: 'generate_energy',
+          emoji: '💡',
+          description: 'Generate {target} kWh of solar energy today',
+          target: Math.floor(Math.random() * 8) + 3 // 3-10 kWh
+        },
+        {
+          type: 'export_surplus',
+          emoji: '⚡',
+          description: 'Export {target} kWh surplus energy to the grid',
+          target: Math.floor(Math.random() * 3) + 2 // 2-4 kWh
+        },
+        {
+          type: 'stay_uptime',
+          emoji: '🌞',
+          description: 'Maintain {target}% system uptime all day',
+          target: 100
+        },
+        {
+          type: 'invite_friend',
+          emoji: '🔗',
+          description: 'Invite {target} friend using your referral code',
+          target: 1
+        }
+      ];
+
+      const randomMission = missionTypes[Math.floor(Math.random() * missionTypes.length)];
+      
+      // Create the new mission
+      const [newMission] = await db
+        .insert(dailyMissions)
+        .values({
+          userId,
+          missionType: randomMission.type,
+          targetValue: randomMission.target,
+          currentValue: 0,
+          status: 'incomplete'
+        })
+        .returning();
+
+      // Add mission metadata for display
+      const missionWithMetadata = {
+        ...newMission,
+        emoji: randomMission.emoji,
+        description: randomMission.description.replace('{target}', randomMission.target.toString())
+      };
+
+      res.json(missionWithMetadata);
+    } catch (error) {
+      console.error('Error fetching/assigning daily mission:', error);
+      res.status(500).json({ message: 'Failed to get daily mission' });
     }
   });
 

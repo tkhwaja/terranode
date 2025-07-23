@@ -27,6 +27,7 @@ import Notifications from "@/components/Notifications";
 import AllianceGovernance from "@/components/AllianceGovernance";
 import WattTicker from "@/components/WattTicker";
 import AlliancePulseBar from "@/components/AlliancePulseBar";
+import DailyMissionCard from "@/components/DailyMissionCard";
 
 export default function Dashboard() {
   const { toast } = useToast();
@@ -223,6 +224,9 @@ export default function Dashboard() {
 
             {/* Alliance Pulse - Community Progress */}
             <AlliancePulseBar />
+
+            {/* Daily Mission - Gamified Goals */}
+            <DailyMissionCard />
 
             <div className="grid grid-cols-1 gap-4 sm:gap-6">
               <EnergyChart />

@@ -165,6 +165,18 @@ export const allianceVotes = pgTable("alliance_votes", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Daily missions table
+export const dailyMissions = pgTable("daily_missions", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  missionType: varchar("mission_type").notNull(), // 'generate_energy', 'invite_friend', 'stay_uptime', 'export_surplus'
+  targetValue: real("target_value").notNull(),
+  currentValue: real("current_value").default(0),
+  status: varchar("status").default("incomplete"), // 'incomplete', 'complete'
+  dateAssigned: timestamp("date_assigned").defaultNow(),
+  completedAt: timestamp("completed_at")
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many, one }) => ({
   energyReadings: many(energyReadings),
@@ -188,6 +200,7 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   notifications: many(notifications),
   createdProposals: many(allianceProposals),
   votes: many(allianceVotes),
+  dailyMissions: many(dailyMissions),
 }));
 
 export const tokenLedgerRelations = relations(tokenLedger, ({ one }) => ({
@@ -342,6 +355,12 @@ export const insertAllianceVoteSchema = createInsertSchema(allianceVotes).omit({
   createdAt: true,
 });
 
+export const insertDailyMissionSchema = createInsertSchema(dailyMissions).omit({
+  id: true,
+  dateAssigned: true,
+  completedAt: true,
+});
+
 export type InsertEnergyReading = z.infer<typeof insertEnergyReadingSchema>;
 export type EnergyReading = typeof energyReadings.$inferSelect;
 export type SolarAlliance = typeof solarAlliances.$inferSelect;
@@ -354,6 +373,8 @@ export type UptimeRecord = typeof uptimeTracker.$inferSelect;
 export type Notification = typeof notifications.$inferSelect;
 export type AllianceProposal = typeof allianceProposals.$inferSelect;
 export type AllianceVote = typeof allianceVotes.$inferSelect;
+export type DailyMission = typeof dailyMissions.$inferSelect;
+export type InsertDailyMission = z.infer<typeof insertDailyMissionSchema>;
 export type InsertSolarAlliance = z.infer<typeof insertSolarAllianceSchema>;
 export type InsertAllianceMembership = z.infer<typeof insertAllianceMembershipSchema>;
 export type InsertTokenLedgerEntry = z.infer<typeof insertTokenLedgerSchema>;
@@ -363,3 +384,10 @@ export type InsertUptimeRecord = z.infer<typeof insertUptimeTrackerSchema>;
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 export type InsertAllianceProposal = z.infer<typeof insertAllianceProposalSchema>;
 export type InsertAllianceVote = z.infer<typeof insertAllianceVoteSchema>;
+
+export const dailyMissionsRelations = relations(dailyMissions, ({ one }) => ({
+  user: one(users, {
+    fields: [dailyMissions.userId],
+    references: [users.id],
+  }),
+}));

@@ -146,3 +146,10 @@ The application is designed to be deployed on Replit with automatic database pro
   - Automatic real-time WebSocket sync for live WATT ticker updates
   - Configurable data generation (days, hours per day) with safety limits
   - Optional auto-seeder service for continuous demo data generation every 5 minutes
+- **Daily Mission Engine**: Gamified habit-forming goal system
+  - PostgreSQL `daily_missions` table with mission progress tracking
+  - Backend API route `/api/daily-mission` with automatic mission assignment and progress updates
+  - Frontend DailyMissionCard component with animated progress bars and completion effects
+  - Four mission types: generate energy, export surplus, maintain uptime, invite friends
+  - Real-time progress tracking based on user's actual energy data and activities
+  - Motivational messaging and visual feedback for engagement

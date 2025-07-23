@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Ensure screen reader only content is properly hidden */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
 /* Mobile-first responsive optimizations */
 @media (max-width: 640px) {
   /* Improve touch targets */

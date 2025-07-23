@@ -66,6 +66,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
+      {/* Hidden text for screen readers - ensure it's properly hidden */}
+      <span className="sr-only" aria-hidden="true">TerraNode Solar Energy Dashboard</span>
+      
       {/* Live WATT Ticker */}
       <WattTicker />
       

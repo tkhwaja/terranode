@@ -1,25 +1,22 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { MapPin, Zap } from "lucide-react";
 
 export default function EnergyMap() {
   const [activeFilter, setActiveFilter] = useState('homes');
+
+  // Query for energy nodes data
+  const { data: energyNodes, isLoading } = useQuery({
+    queryKey: ['/api/energy-nodes', activeFilter],
+    retry: false,
+  });
 
   const filters = [
     { id: 'homes', label: 'Homes' },
     { id: 'groups', label: 'Groups' },
     { id: 'alliances', label: 'Alliances' },
-  ];
-
-  const energyNodes = [
-    { id: 1, x: 33, y: 25, type: 'high', power: 12.5 },
-    { id: 2, x: 75, y: 50, type: 'medium', power: 7.8 },
-    { id: 3, x: 25, y: 67, type: 'low', power: 3.2 },
-    { id: 4, x: 67, y: 33, type: 'high', power: 11.0 },
-    { id: 5, x: 50, y: 75, type: 'medium', power: 6.5 },
-    { id: 6, x: 15, y: 30, type: 'high', power: 10.2 },
-    { id: 7, x: 85, y: 20, type: 'low', power: 2.8 },
-    { id: 8, x: 45, y: 45, type: 'medium', power: 8.1 },
   ];
 
   return (
@@ -66,13 +63,44 @@ export default function EnergyMap() {
             </svg>
           </div>
           
+          {/* Loading State */}
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400 mx-auto mb-2"></div>
+                <p className="text-gray-400 text-sm">Loading energy nodes...</p>
+              </div>
+            </div>
+          )}
+          
+          {/* Empty State */}
+          {!isLoading && (!energyNodes || energyNodes.length === 0) && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gray-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="w-8 h-8 text-gray-500" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-400 mb-2">No Energy Nodes Found</h3>
+                <p className="text-sm text-gray-500 max-w-sm mx-auto">
+                  {activeFilter === 'homes' ? 'No homes are currently sharing energy data in your area.' :
+                   activeFilter === 'groups' ? 'No energy groups are active in your region.' :
+                   'No alliances are participating in the energy network.'}
+                </p>
+                <div className="mt-4">
+                  <p className="text-xs text-gray-600">Try joining an alliance or check back later</p>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {/* Energy Nodes */}
-          <div className="absolute inset-0">
-            {energyNodes.map((node) => {
-              const nodeColor = node.type === 'high' ? 'bg-cyan-400' : 
-                               node.type === 'medium' ? 'bg-cyan-600' : 
-                               'bg-cyan-800';
-              const glowColor = node.type === 'high' ? 'shadow-cyan-400/50' : 
+          {!isLoading && energyNodes && energyNodes.length > 0 && (
+            <div className="absolute inset-0">
+              {energyNodes.map((node: any) => {
+                const nodeColor = node.type === 'high' ? 'bg-cyan-400' : 
+                                 node.type === 'medium' ? 'bg-cyan-600' : 
+                                 'bg-cyan-800';
+                const glowColor = node.type === 'high' ? 'shadow-cyan-400/50' : 
                                node.type === 'medium' ? 'shadow-cyan-600/50' : 
                                'shadow-cyan-800/50';
               
@@ -111,8 +139,10 @@ export default function EnergyMap() {
               );
             })}
           </div>
+          )}
           
           {/* Map Legend */}
+          {!isLoading && energyNodes && energyNodes.length > 0 && (
           <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 bg-gray-900/90 border border-cyan-900/30 p-2 sm:p-3 rounded-lg backdrop-blur">
             <h4 className="text-xs text-cyan-400 uppercase tracking-wider mb-1 sm:mb-2">NODE OUTPUT</h4>
             <div className="space-y-1 text-xs">
@@ -130,6 +160,7 @@ export default function EnergyMap() {
               </div>
             </div>
           </div>
+          )}
         </div>
       </CardContent>
     </Card>

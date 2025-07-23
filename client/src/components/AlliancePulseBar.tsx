@@ -3,6 +3,7 @@ import { Users, Target, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import AuthPrompt from "./AuthPrompt";
 
 interface AlliancePulseData {
   currentTotal: number;
@@ -14,9 +15,10 @@ interface AlliancePulseData {
 }
 
 export default function AlliancePulseBar() {
-  const { data: pulseData, isLoading } = useQuery<AlliancePulseData>({
+  const { data: pulseData, isLoading, error } = useQuery<AlliancePulseData>({
     queryKey: ['/api/alliance-pulse'],
     refetchInterval: 30000, // Refresh every 30 seconds
+    retry: false, // Don't retry on auth errors
   });
 
   if (isLoading) {
@@ -30,6 +32,19 @@ export default function AlliancePulseBar() {
   }
 
   if (!pulseData) {
+    // Check if it's an auth error
+    const isAuthError = error && (error.message?.includes('401') || error?.message?.includes('Unauthorized'));
+    
+    if (isAuthError) {
+      return (
+        <AuthPrompt 
+          title="Alliance Pulse" 
+          message="Join the community and track collective solar progress with your alliance members"
+          icon={<Zap className="w-6 h-6 text-cyan-400" />}
+        />
+      );
+    }
+    
     return null;
   }
 

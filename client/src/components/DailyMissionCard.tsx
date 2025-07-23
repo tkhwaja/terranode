@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Target, CheckCircle, Clock } from "lucide-react";
+import AuthPrompt from "./AuthPrompt";
 
 interface DailyMissionData {
   id: number;
@@ -42,6 +43,7 @@ export default function DailyMissionCard() {
   const { data: mission, isLoading, error } = useQuery<DailyMissionData>({
     queryKey: ['/api/daily-mission'],
     refetchInterval: 30000, // Refresh every 30 seconds to update progress
+    retry: false, // Don't retry on auth errors
   });
 
   if (isLoading) {
@@ -55,6 +57,19 @@ export default function DailyMissionCard() {
   }
 
   if (error || !mission) {
+    // Check if it's an auth error
+    const isAuthError = error && (error.message?.includes('401') || error?.message?.includes('Unauthorized'));
+    
+    if (isAuthError) {
+      return (
+        <AuthPrompt 
+          title="Daily Mission Awaits" 
+          message="Log in to receive your personalized solar energy challenge and start earning rewards"
+          icon={<Target className="w-6 h-6 text-cyan-400" />}
+        />
+      );
+    }
+    
     return (
       <Card className="bg-gray-900/80 border border-red-900/30 backdrop-blur-sm">
         <CardContent className="p-4 sm:p-6">

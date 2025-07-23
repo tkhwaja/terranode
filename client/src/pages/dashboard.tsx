@@ -26,6 +26,7 @@ import UptimeTracker from "@/components/UptimeTracker";
 import Notifications from "@/components/Notifications";
 import AllianceGovernance from "@/components/AllianceGovernance";
 import WattTicker from "@/components/WattTicker";
+import AlliancePulseBar from "@/components/AlliancePulseBar";
 
 export default function Dashboard() {
   const { toast } = useToast();
@@ -219,6 +220,10 @@ export default function Dashboard() {
               <WattWallet />
               <ReferralSystem />
             </div>
+
+            {/* Alliance Pulse - Community Progress */}
+            <AlliancePulseBar />
+
             <div className="grid grid-cols-1 gap-4 sm:gap-6">
               <EnergyChart />
               <EnergyMap />

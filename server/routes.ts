@@ -276,6 +276,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Alliance Pulse endpoint - shows collective solar generation progress
+  app.get('/api/alliance-pulse', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      
+      // Get user's alliance
+      const userAlliances = await storage.getUserAlliances(userId);
+      const userAlliance = userAlliances.length > 0 ? userAlliances[0] : null;
+
+      let currentTotal = 0;
+      const weeklyGoal = 100; // kWh target
+      
+      if (userAlliance) {
+        // Get all members of the alliance (for now use demo calculation)
+        // In a real implementation, you'd fetch actual alliance members
+        const demoMembers = 5; // Simulate alliance with 5 members including user
+        
+        // Get user's own energy readings for last 7 days
+        const userReadings = await storage.getUserEnergyReadings(userId, 168); // 168 hours = 7 days
+        const userSurplus = userReadings.reduce((sum, reading) => sum + reading.surplusExported, 0);
+        
+        // Simulate other members' contributions (for demo purposes)
+        const avgMemberSurplus = userSurplus * 0.8; // Assume other members generate 80% of what user does
+        currentTotal = userSurplus + (avgMemberSurplus * (demoMembers - 1));
+      } else {
+        // Demo data for users not in alliance - simulate 5-10 users
+        const demoUsers = 7;
+        const avgSurplusPerUser = 4.2; // kWh per day
+        const daysInWeek = 7;
+        currentTotal = demoUsers * avgSurplusPerUser * daysInWeek * 0.6; // 60% progress for demo
+      }
+
+      // Calculate progress percentage
+      const progressPercent = Math.min((currentTotal / weeklyGoal) * 100, 100);
+      
+      // Determine status emoji based on progress
+      let statusEmoji = '⚡';
+      if (progressPercent >= 100) statusEmoji = '🚀';
+      else if (progressPercent >= 75) statusEmoji = '🔥';
+      else if (progressPercent >= 50) statusEmoji = '💪';
+      else if (progressPercent >= 25) statusEmoji = '🌱';
+
+      res.json({
+        currentTotal: Math.round(currentTotal * 10) / 10, // Round to 1 decimal
+        weeklyGoal,
+        progressPercent: Math.round(progressPercent * 10) / 10,
+        statusEmoji,
+        hasAlliance: !!userAlliance,
+        allianceName: userAlliance?.name || null
+      });
+    } catch (error) {
+      console.error('Error fetching alliance pulse:', error);
+      res.status(500).json({ message: 'Failed to fetch alliance pulse data' });
+    }
+  });
+
   // User profile routes
   app.put('/api/user/profile', isAuthenticated, async (req: any, res) => {
     try {
@@ -492,11 +548,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           // Send current balance immediately
           storage.getUserWallet(message.userId).then(wallet => {
-            ws.send(JSON.stringify({
-              type: 'balance_update',
-              balance: wallet.wattBalance,
-              timestamp: new Date().toISOString()
-            }));
+            if (wallet) {
+              ws.send(JSON.stringify({
+                type: 'balance_update',
+                balance: wallet.wattBalance,
+                timestamp: new Date().toISOString()
+              }));
+            }
           }).catch(err => {
             console.error('Error fetching initial wallet balance:', err);
           });
@@ -508,7 +566,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     
     ws.on('close', () => {
       // Remove user connection when they disconnect
-      for (const [userId, connection] of userConnections.entries()) {
+      for (const [userId, connection] of userConnections) {
         if (connection === ws) {
           userConnections.delete(userId);
           console.log(`User ${userId} disconnected from WATT ticker`);
